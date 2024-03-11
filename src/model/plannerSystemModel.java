@@ -14,28 +14,68 @@ public interface plannerSystemModel {
    See events occurring at a given time for the given user.
    */
 
-  // Upload a user's schedule from an XML file. The method might return a boolean to indicate success/failure.
+  /**
+   * Upload an XML file representing a single user’s schedule.
+   * @param xmlFilePath the path to the XML file
+   * @param user the user to upload the schedule for
+   * @return true if the schedule was uploaded successfully, false otherwise
+   */
   boolean uploadSchedule(String xmlFilePath, User user);
 
-  // Save a user's schedule to an XML file. This could also return a boolean to indicate success or failure.
+  /**
+   * Save each user’s schedule to an XML file.
+   * @param xmlFilePath the path to the XML file
+   * @param user the user to save the schedule for
+   * @return true if the schedule was saved successfully, false otherwise
+   */
   boolean saveSchedule(String xmlFilePath, User user);
 
-  // Select a user in the planner system. This could change to using the User object directly if that fits your design better.
+  /**
+   * Select one of the users to display their schedule.
+   * @param user the user to select
+   */
   void selectUser(User user);
 
-  // Create an event in the user's schedule. Parameters are adjusted to use the Event class and possibly return a success indicator.
+  /**
+   * Create an event for a user.
+   * @param user the user to create the event for
+   * @param event the event to create
+   * @return true if the event was created successfully, false otherwise
+   */
   boolean createEvent(User user, Event event);
 
-  // Modify an existing event for a user. This might involve providing the original event and the updated event.
+  /**
+   * Modify an event for a user.
+   * @param user the user to modify the event for
+   * @param originalEvent the original event to modify
+   * @param updatedEvent the updated event
+   * @return true if the event was modified successfully, false otherwise
+   */
   boolean modifyEvent(User user, Event originalEvent, Event updatedEvent);
 
-  // Remove an event from the user's schedule. This uses the Event class directly for clarity.
+  /**
+   * Remove an event for a user.
+   * @param user the user to remove the event for
+   * @param event the event to remove
+   * @return true if the event was removed successfully, false otherwise
+   */
   boolean removeEvent(User user, Event event);
 
-  // Attempt to automatically schedule an event for a user, considering availability. The method may need more parameters or adjustments based on your auto-scheduling logic.
+  /**
+   * Have the program automatically schedule an event on some users’
+   * schedules at some time if possible.
+   * @param user the user to schedule the event for
+   * @param event the event to schedule
+   * @return true if the event was scheduled successfully, false otherwise
+   */
   boolean autoSchedule(User user, Event event);
 
-  // See events occurring at a given time for a user. This method now returns a list of events.
+  /**
+   * See events occurring at a given time for the given user.
+   * @param user the user to see the events for
+   * @param time the time to see the events for
+   * @return a list of events occurring at the given time for the given user
+   */
   List<Event> seeEvents(User user, LocalDateTime time);
 
 }

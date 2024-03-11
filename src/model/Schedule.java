@@ -22,6 +22,11 @@ public class Schedule {
     return new ArrayList<>(events);
   }
 
+  public boolean uploadSchedule(String xmlFilePath) {
+    // This method could be implemented to read the XML file and populate the schedule with events.
+    return true;
+  }
+
   // Methods to modify events, get events by date/time, etc.
   // For example, findEventsOnDate(LocalDate date), modifyEvent(Event oldEvent, Event newEvent)
 }

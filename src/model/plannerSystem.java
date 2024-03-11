@@ -7,7 +7,10 @@ public class plannerSystem implements plannerSystemModel{
 
   @Override
   public boolean uploadSchedule(String xmlFilePath, User user) {
-    return false;
+   if (xmlFilePath == null || user == null) {
+      throw new IllegalArgumentException("Invalid input");
+    }
+    return user.getSchedule().uploadSchedule(xmlFilePath);
   }
 
   @Override
