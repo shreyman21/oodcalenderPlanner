@@ -2,12 +2,12 @@ package model;
 
 public class plannerSystem implements plannerSystemModel{
   @Override
-  public void uploadSchedule(String xmlFile) {
+  public void uploadSchedule(String xmlFilePath) {
 
   }
 
   @Override
-  public void saveSchedule(String xmlFile) {
+  public void saveSchedule(String xmlFilePath) {
 
   }
 

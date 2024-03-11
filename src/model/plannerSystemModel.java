@@ -10,8 +10,8 @@ public interface plannerSystemModel {
    schedules at some time if possible.
    See events occurring at a given time for the given user.
    */
-  public void uploadSchedule(String xmlFile);
-  public void saveSchedule(String xmlFile);
+  public void uploadSchedule(String xmlFilePath);
+  public void saveSchedule(String xmlFilePath);
   public void selectUser(String user);
   public void createEvent(String user, String event);
   public void modifyEvent(String user, String event);
