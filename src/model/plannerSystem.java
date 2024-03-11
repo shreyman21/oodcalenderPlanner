@@ -1,43 +1,47 @@
 package model;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class plannerSystem implements plannerSystemModel{
+
   @Override
-  public void uploadSchedule(String xmlFilePath) {
+  public boolean uploadSchedule(String xmlFilePath, User user) {
+    return false;
+  }
+
+  @Override
+  public boolean saveSchedule(String xmlFilePath, User user) {
+    return false;
+  }
+
+  @Override
+  public void selectUser(User user) {
 
   }
 
   @Override
-  public void saveSchedule(String xmlFilePath) {
-
+  public boolean createEvent(User user, Event event) {
+    return false;
   }
 
   @Override
-  public void selectUser(String user) {
-
+  public boolean modifyEvent(User user, Event originalEvent, Event updatedEvent) {
+    return false;
   }
 
   @Override
-  public void createEvent(String user, String event) {
-
+  public boolean removeEvent(User user, Event event) {
+    return false;
   }
 
   @Override
-  public void modifyEvent(String user, String event) {
-
+  public boolean autoSchedule(User user, Event event) {
+    return false;
   }
 
   @Override
-  public void removeEvent(String user, String event) {
-
-  }
-
-  @Override
-  public void autoSchedule(String user, String event) {
-
-  }
-
-  @Override
-  public void seeEvents(String user, String time) {
-
+  public List<Event> seeEvents(User user, LocalDateTime time) {
+    return null;
   }
 }
