@@ -10,10 +10,17 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  * An example code file to show how to write to files
@@ -53,6 +60,44 @@ public class Utils {
       throw new RuntimeException(ex.getMessage());
     }
   }
+
+  public static boolean saveSchedule(String xmlFilePath, User user) {
+    try {
+      DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+      Document doc = dBuilder.newDocument();
+
+      // Root element
+      Element rootElement = doc.createElement("schedule");
+      doc.appendChild(rootElement);
+      rootElement.setAttribute("id", user.getId());
+
+      List<Event> events = user.getSchedule().getEvents();
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+      for (Event event : events) {
+        Element eventElement = doc.createElement("event");
+        rootElement.appendChild(eventElement);
+
+        // Populate the eventElement with details from the Event object
+        // Similar to the example provided previously
+
+        // Write the content into XML file
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File(xmlFilePath));
+
+        transformer.transform(source, result);
+      }
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
 
   /**
    * Reads the specific tutorial.xml file, assuming it's right next to the program,
