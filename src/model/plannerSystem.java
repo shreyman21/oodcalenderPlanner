@@ -116,21 +116,82 @@ public class plannerSystem implements plannerSystemModel{
 
   @Override
   public boolean modifyEvent(User user, Event originalEvent, Event updatedEvent) {
-    return false;
+
+    if (user == null || originalEvent == null || updatedEvent == null) {
+      System.out.println("User or event is null.");
+      return false;
+    }
+
+    if (!users.containsKey(user.getId())) {
+      System.out.println("User does not exist in the system.");
+      return false;
+    }
+    try {
+      user.getSchedule().removeEvent(originalEvent);
+      user.getSchedule().addEvent(updatedEvent);
+      return true;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
   public boolean removeEvent(User user, Event event) {
-    return false;
+    if (user == null || event == null) {
+      System.out.println("User or event is null.");
+      return false;
+    }
+
+    if (!users.containsKey(user.getId())) {
+      System.out.println("User does not exist in the system.");
+      return false;
+    }
+    try {
+      user.getSchedule().removeEvent(event);
+      return true;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
   public boolean autoSchedule(User user, Event event) {
-    return false;
+
+    if (user == null || event == null) {
+      System.out.println("User or event is null.");
+      return false;
+    }
+
+    if (!users.containsKey(user.getId())) {
+      System.out.println("User does not exist in the system.");
+      return false;
+    }
+    try {
+      user.getSchedule().addEvent(event);
+      return true;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
   public List<Event> seeEvents(User user, LocalDateTime time) {
-    return null;
+    if (user == null || time == null) {
+      System.out.println("User or time is null.");
+      return new ArrayList<>();
+    }
+
+    if (!users.containsKey(user.getId())) {
+      System.out.println("User does not exist in the system.");
+      return new ArrayList<>();
+    }
+    List<Event> events = user.getSchedule().getEvents();
+    List<Event> eventsAtTime = new ArrayList<>();
+    for (Event event : events) {
+      if (event.getStartTime().isBefore(time) && event.getEndTime().isAfter(time)) {
+        eventsAtTime.add(event);
+      }
+    }
+    return eventsAtTime;
   }
 }
