@@ -2,8 +2,12 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * The class for an event.
+ * An event has a name, start time, end time, location, and participants, and invitees.
+ * The start and end times are in LocalDateTime format.
+ */
 public class Event {
   private String name;
   private LocalDateTime startTime;

@@ -3,6 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a schedule in the calendar system.
+ * A schedule has a list of events.
+ * We can add and remove events from the schedule.
+ * We can also get the list of events in the schedule.
+ */
 public class Schedule {
   private List<Event> events;
 

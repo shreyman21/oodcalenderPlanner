@@ -12,6 +12,9 @@ import model.plannerSystem;
 import view.textualView;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * This class tests the textual view of the planner system.
+ */
 public class textualTests{
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
@@ -23,9 +26,6 @@ public class textualTests{
     System.setOut(new PrintStream(outContent));
     ps = new plannerSystem();
     tv = new textualView();
-
-    // Assuming you have a setupUsers method that creates and returns a list of User objects
-    // This is where you'd read from the XML file and populate your users
     User user1 = new User("1", "Prof. Lucia");
     ps.addUser(user1);
     ps.uploadSchedule("prof.xml", user1);

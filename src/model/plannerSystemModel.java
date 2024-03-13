@@ -3,16 +3,14 @@ package model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * This class represents the model for the planner system.
+ * This model has various functionalities such as uploading and saving schedules,
+ * selecting a user, creating, modifying, and removing events, and auto-scheduling events.
+ * It also has the functionality to see events occurring at a given time for a given user.
+ * This model is used by the controller to interact with the view.
+ */
 public interface plannerSystemModel {
-  /*
-   Upload an XML file representing a single user’s schedule.
-   Save each user’s schedule to an XML file.
-   Select one of the users to display their schedule.
-   Create, modify, or remove an event on a user’s schedule, which may affect other user’s schedule.
-   Have the program automatically schedule an event on some users’
-   schedules at some time if possible.
-   See events occurring at a given time for the given user.
-   */
 
   /**
    * Upload an XML file representing a single user’s schedule.

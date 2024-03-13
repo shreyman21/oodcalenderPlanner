@@ -3,11 +3,10 @@ package view;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import model.Event;
 import model.User;
 
-public class textualView {
+public class textualView implements plannerView {
 
   public void displayUsersSchedules(List<User> users) {
     for (User user : users) {
@@ -26,11 +25,9 @@ public class textualView {
     sb.append("\tlocation: ").append(event.getLocation()).append("\n");
     sb.append("\tonline: ").append(event.isOnline() ? "true" : "false").append("\n");
     sb.append("\tinvitees: ");
-    // Assuming getInvitees() returns a list of invitee names
     for (String invitee : event.getInvitees()) {
       sb.append(invitee).append(", ");
     }
-    // Remove the trailing comma and space if there are invitees
     if (!event.getInvitees().isEmpty()) {
       sb.setLength(sb.length() - 2);
     }
@@ -39,7 +36,6 @@ public class textualView {
   }
 
   private String formatDateTime(LocalDateTime dateTime) {
-    // Custom formatter for day of week and time without colon
     DateTimeFormatter dayOfWeekFormatter = DateTimeFormatter.ofPattern("EEEE");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
     String dayOfWeek = dayOfWeekFormatter.format(dateTime);
