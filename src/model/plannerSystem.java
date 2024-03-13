@@ -59,7 +59,7 @@ public class plannerSystem implements plannerSystemModel{
           LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
 
           // Create an Event object with the parsed data
-          Event event = new Event(name, startDateTime, endDateTime, place, isOnline, new ArrayList<>(), new ArrayList<>());
+          Event event = new Event(name, startDateTime, endDateTime, place, isOnline, new ArrayList<>());
           user.getSchedule().addEvent(event);
         }
       }
@@ -68,13 +68,6 @@ public class plannerSystem implements plannerSystemModel{
       e.printStackTrace();
       return false;
     }
-  }
-
-  private String[] parseTime(String time) {
-    String[] times = time.split("->");
-    times[0] = times[0].substring(times[0].indexOf(":") + 1).trim();
-    times[1] = times[1].substring(times[1].indexOf(":") + 1).trim();
-    return times;
   }
 
   @Override

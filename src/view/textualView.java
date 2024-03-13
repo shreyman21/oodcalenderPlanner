@@ -41,10 +41,10 @@ public class textualView implements plannerView {
   }
 
   private String formatDateTime(LocalDateTime dateTime) {
-    DateTimeFormatter dayOfWeekFormatter = DateTimeFormatter.ofPattern("EEEE");
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
-    String dayOfWeek = dayOfWeekFormatter.format(dateTime);
-    String time = timeFormatter.format(dateTime);
-    return dayOfWeek + ": " + time;
+    if (dateTime == null) {
+      return "Time not set";
+    }
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE: HHmm");
+    return formatter.format(dateTime);
   }
 }

@@ -1,4 +1,5 @@
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +13,8 @@ import model.Event;
 import model.User;
 import model.plannerSystem;
 import view.textualView;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -57,33 +60,64 @@ public class textualTests{
   public void addAndRemoveEvent() {
     User user = ps.getUser("1");
     ps.selectAndModifyUserSchedule(user.getId());
-
-    // Parse the start and end times from String to LocalDateTime
     LocalDateTime startTime = LocalDateTime.parse("2021-10-01T10:00");
     LocalDateTime endTime = LocalDateTime.parse("2021-10-01T11:00");
-
-    // Use the parsed LocalDateTime objects when creating the Event
-    Event e = new Event("Football", startTime, endTime, "Online", true, new ArrayList<>(), new ArrayList<>());
+    Event e = new Event("Football", startTime, endTime, "Online", true, new ArrayList<>());
     ps.createEvent(user, e);
 
     List<User> users = new ArrayList<>(ps.getUsers());
     tv.displayUsersSchedules(users);
     String output = outContent.toString();
 
-    // Reset System.out to its original stream to print to console
     System.setOut(originalOut);
     System.out.println(output);
 
     assertTrue(output.contains("Football"));
 
     ps.removeEvent(user, e);
-    // does not contain "Football" anymore
+    outContent.reset();
     tv.displayUsersSchedules(users);
     output = outContent.toString();
     System.setOut(originalOut);
     System.out.println(output);
-    assertTrue(!output.contains("Football"));
+    assertFalse(output.contains("Football"));
   }
 
-  
+  @Test
+  public void comprehensiveTest() {
+    User user1 = new User("Shreyas", "1");
+    ps.addUser(user1);
+    ps.uploadSchedule("testfile.xml", user1);
+
+    User user2 = new User("Brandon", "2");
+    ps.addUser(user2);
+    ps.uploadSchedule("testfile.xml", user2);
+
+    // See Events for a user at a specific time
+    LocalDateTime timeToCheck = LocalDateTime.of(2024, 3, 19, 10, 0); // Example time
+    List<Event> eventsAtTime = ps.seeEvents(user1, timeToCheck);
+    Assert.assertFalse(eventsAtTime.isEmpty());
+
+    // Modify an event for Shreyas
+    Event originalEvent = eventsAtTime.get(0);
+    Event updatedEvent = new Event(originalEvent.getName(), originalEvent.getStartTime(), originalEvent.getEndTime().plusHours(1), originalEvent.getLocation(), originalEvent.isOnline(), originalEvent.getInvitees());
+    ps.modifyEvent(user1, originalEvent, updatedEvent);
+
+    // Auto schedule an event for Brandon
+    Event autoScheduledEvent = new Event("Jogging", null, null, "Park", false, new ArrayList<>()); // Time is to be auto-scheduled
+    ps.autoSchedule(user2, autoScheduledEvent);
+    ps.removeEvent(user1, updatedEvent);
+
+    // Display updated schedules
+    ArrayList<User> users = new ArrayList<>(List.of(user1, user2));
+    tv.displayUsersSchedules(users);
+
+    // Check outputs or use debugging to verify changes are as expected
+    // This step depends on your implementation of the methods and how they affect the system state
+  }
+
+
+  // TODO: Add more tests, Class invariance, illegal arguments, Detect overlaaping events,
+
+
 }

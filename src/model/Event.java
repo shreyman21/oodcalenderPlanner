@@ -14,17 +14,15 @@ public class Event {
   private LocalDateTime endTime;
   private String location;
   private boolean isOnline;
-  private List<String> participants; // List of user IDs
 
   private List<String> invitees;
 
-  public Event(String name, LocalDateTime startTime, LocalDateTime endTime, String location, boolean isOnline, List<String> participants, List<String> invitees) {
+  public Event(String name, LocalDateTime startTime, LocalDateTime endTime, String location, boolean isOnline, List<String> invitees) {
     this.name = name;
     this.startTime = startTime;
     this.endTime = endTime;
     this.location = location;
     this.isOnline = isOnline;
-    this.participants = participants;
     this.invitees = invitees;
   }
   public boolean checkForConflict(Event otherEvent) {
@@ -70,14 +68,6 @@ public class Event {
 
   public void setOnline(boolean online) {
     isOnline = online;
-  }
-
-  public List<String> getParticipants() {
-    return participants;
-  }
-
-  public void setParticipants(List<String> participants) {
-    this.participants = participants;
   }
 
 
