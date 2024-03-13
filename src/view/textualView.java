@@ -6,6 +6,11 @@ import java.util.List;
 import model.Event;
 import model.User;
 
+/**
+ * The textual view for the planner.
+ * This view displays the schedule for each user in text format.
+ * It implements the plannerView interface.
+ */
 public class textualView implements plannerView {
 
   public void displayUsersSchedules(List<User> users) {
