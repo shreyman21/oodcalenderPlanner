@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class Event {
   private String name;
@@ -11,13 +12,16 @@ public class Event {
   private boolean isOnline;
   private List<String> participants; // List of user IDs
 
-  public Event(String name, LocalDateTime startTime, LocalDateTime endTime, String location, boolean isOnline, List<String> participants) {
+  private List<String> invitees;
+
+  public Event(String name, LocalDateTime startTime, LocalDateTime endTime, String location, boolean isOnline, List<String> participants, List<String> invitees) {
     this.name = name;
     this.startTime = startTime;
     this.endTime = endTime;
     this.location = location;
     this.isOnline = isOnline;
     this.participants = participants;
+    this.invitees = invitees;
   }
   public boolean checkForConflict(Event otherEvent) {
     return (this.startTime.isBefore(otherEvent.getEndTime()) && this.endTime.isAfter(otherEvent.getStartTime()));
@@ -70,5 +74,10 @@ public class Event {
 
   public void setParticipants(List<String> participants) {
     this.participants = participants;
+  }
+
+
+  public List<String> getInvitees() {
+    return invitees;
   }
 }

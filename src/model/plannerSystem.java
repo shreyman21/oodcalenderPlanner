@@ -6,8 +6,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +23,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class plannerSystem implements plannerSystemModel{
 
   private Map<String, User> users = new HashMap<>();
-  private User selectedUser;
 
   @Override
   public boolean uploadSchedule(String xmlFilePath, User user) {
@@ -36,15 +39,27 @@ public class plannerSystem implements plannerSystemModel{
         Node nNode = nList.item(i);
         if (nNode.getNodeType() == Node.ELEMENT_NODE) {
           Element eElement = (Element) nNode;
-          String name = eElement.getElementsByTagName("name").item(0).getTextContent();
-          String location = eElement.getElementsByTagName("location").item(0).getTextContent();
+
+          // Extract event details from XML
+          String name = eElement.getElementsByTagName("name").item(0).getTextContent().replace("\"", "");
+          String startDay = eElement.getElementsByTagName("start-day").item(0).getTextContent();
+          String startTimeString = eElement.getElementsByTagName("start").item(0).getTextContent();
+          String endDay = eElement.getElementsByTagName("end-day").item(0).getTextContent();
+          String endTimeString = eElement.getElementsByTagName("end").item(0).getTextContent();
           boolean isOnline = Boolean.parseBoolean(eElement.getElementsByTagName("online").item(0).getTextContent());
-          String start = eElement.getElementsByTagName("start").item(0).getTextContent();
-          String end = eElement.getElementsByTagName("end").item(0).getTextContent();
-          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-          LocalDateTime startTime = LocalDateTime.parse(start, formatter);
-          LocalDateTime endTime = LocalDateTime.parse(end, formatter);
-          Event event = new Event(name, startTime, endTime, location, isOnline, new ArrayList<>());
+          String place = eElement.getElementsByTagName("place").item(0).getTextContent().replace("\"", "");
+
+          // Parse the time string into LocalDateTime objects
+          DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+          LocalTime startTime = LocalTime.parse(startTimeString, timeFormatter);
+          LocalTime endTime = LocalTime.parse(endTimeString, timeFormatter);
+          LocalDate startDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.valueOf(startDay.toUpperCase())));
+          LocalDate endDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.valueOf(endDay.toUpperCase())));
+          LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
+          LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+
+          // Create an Event object with the parsed data
+          Event event = new Event(name, startDateTime, endDateTime, place, isOnline, new ArrayList<>(), new ArrayList<>());
           user.getSchedule().addEvent(event);
         }
       }
@@ -53,6 +68,13 @@ public class plannerSystem implements plannerSystemModel{
       e.printStackTrace();
       return false;
     }
+  }
+
+  private String[] parseTime(String time) {
+    String[] times = time.split("->");
+    times[0] = times[0].substring(times[0].indexOf(":") + 1).trim();
+    times[1] = times[1].substring(times[1].indexOf(":") + 1).trim();
+    return times;
   }
 
   @Override
@@ -65,7 +87,6 @@ public class plannerSystem implements plannerSystemModel{
     if (user == null || !users.containsKey(user.getId())) {
       throw new IllegalArgumentException("User not found in the system.");
     }
-    this.selectedUser = user;
   }
 
   public void addUser(User user) {
@@ -156,7 +177,7 @@ public class plannerSystem implements plannerSystemModel{
 
   @Override
   public boolean autoSchedule(User user, Event event) {
-
+    // First availabe open time slot, cant conflict with other events
     if (user == null || event == null) {
       System.out.println("User or event is null.");
       return false;
@@ -193,5 +214,9 @@ public class plannerSystem implements plannerSystemModel{
       }
     }
     return eventsAtTime;
+  }
+
+  public List<User> getUsers() {
+    return new ArrayList<>(users.values());
   }
 }
