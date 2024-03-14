@@ -28,6 +28,11 @@ public class Schedule {
     return new ArrayList<>(events);
   }
 
+  /**
+   * Check if the event conflicts with any existing events in the schedule.
+   * @param event the event to check for conflicts
+   * @return true if the event conflicts with any existing events, false otherwise
+   */
   public boolean hasEventConflict(Event event) {
     for (Event e : events) {
       if (e.conflictsWith(event)) {

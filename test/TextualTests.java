@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Event;
+import model.PlannerSystem;
 import model.User;
-import model.plannerSystem;
-import view.textualView;
+import view.TextualView;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -21,17 +21,17 @@ import static org.junit.Assert.assertTrue;
  * This class tests the textual view of the planner system.
  * Checks if the textual view displays the users' schedules correctly.
  */
-public class textualTests{
+public class TextualTests {
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
-  private plannerSystem ps;
-  private textualView tv;
+  private PlannerSystem ps;
+  private TextualView tv;
 
   @Before
   public void setUp() {
     System.setOut(new PrintStream(outContent));
-    ps = new plannerSystem();
-    tv = new textualView();
+    ps = new PlannerSystem();
+    tv = new TextualView();
     User user1 = new User("1", "Prof. Lucia");
     ps.addUser(user1);
     ps.uploadSchedule("prof.xml", user1);
@@ -101,11 +101,14 @@ public class textualTests{
 
     // Modify an event for Shreyas
     Event originalEvent = eventsAtTime.get(0);
-    Event updatedEvent = new Event(originalEvent.getName(), originalEvent.getStartTime(), originalEvent.getEndTime().plusHours(1), originalEvent.getLocation(), originalEvent.isOnline(), originalEvent.getInvitees());
+    Event updatedEvent = new Event(originalEvent.getName(), originalEvent.getStartTime(),
+            originalEvent.getEndTime().plusHours(1), originalEvent.getLocation(),
+            originalEvent.isOnline(), originalEvent.getInvitees());
     ps.modifyEvent(user1, originalEvent, updatedEvent);
 
     // Auto schedule an event for Brandon
-    Event autoScheduledEvent = new Event("Jogging", null, null, "Park", false, new ArrayList<>()); // Time is to be auto-scheduled
+    Event autoScheduledEvent = new Event("Jogging", null, null,
+            "Park", false, new ArrayList<>());
     ps.autoSchedule(user2, autoScheduledEvent);
     ps.removeEvent(user1, updatedEvent);
 

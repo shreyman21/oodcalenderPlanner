@@ -11,8 +11,8 @@ import model.User;
  * This view displays the schedule for each user in text format.
  * It implements the plannerView interface.
  */
-public class textualView implements plannerView {
-
+public class TextualView implements PlannerView {
+  @Override
   public void displayUsersSchedules(List<User> users) {
     for (User user : users) {
       System.out.println("User: " + user.getName());
@@ -26,7 +26,8 @@ public class textualView implements plannerView {
   private String formatEvent(Event event) {
     StringBuilder sb = new StringBuilder();
     sb.append("name: ").append(event.getName()).append("\n");
-    sb.append("\ttime: ").append(formatDateTime(event.getStartTime())).append(" -> ").append(formatDateTime(event.getEndTime())).append("\n");
+    sb.append("\ttime: ").append(formatDateTime(event.getStartTime()))
+            .append(" -> ").append(formatDateTime(event.getEndTime())).append("\n");
     sb.append("\tlocation: ").append(event.getLocation()).append("\n");
     sb.append("\tonline: ").append(event.isOnline() ? "true" : "false").append("\n");
     sb.append("\tinvitees: ");

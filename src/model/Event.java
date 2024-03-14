@@ -17,7 +17,19 @@ public class Event {
 
   private List<String> invitees;
 
-  public Event(String name, LocalDateTime startTime, LocalDateTime endTime, String location, boolean isOnline, List<String> invitees) {
+  /**
+   * Constructor for the Event class.
+   *
+   * @param name      the name of the event
+   * @param startTime the start time of the event
+   * @param endTime   the end time of the event
+   * @param location  the location of the event
+   * @param isOnline  whether the event is online
+   * @param invitees  the invitees of the event
+   */
+
+  public Event(String name, LocalDateTime startTime, LocalDateTime endTime,
+               String location, boolean isOnline, List<String> invitees) {
     this.name = name;
     this.startTime = startTime;
     this.endTime = endTime;
@@ -25,8 +37,10 @@ public class Event {
     this.isOnline = isOnline;
     this.invitees = invitees;
   }
+
   public boolean checkForConflict(Event otherEvent) {
-    return (this.startTime.isBefore(otherEvent.getEndTime()) && this.endTime.isAfter(otherEvent.getStartTime()));
+    return (this.startTime.isBefore(otherEvent.getEndTime())
+            && this.endTime.isAfter(otherEvent.getStartTime()));
   }
 
   // Getter and setter methods
@@ -70,12 +84,12 @@ public class Event {
     isOnline = online;
   }
 
-
   public List<String> getInvitees() {
     return invitees;
   }
 
   public boolean conflictsWith(Event event) {
-    return this.startTime.isBefore(event.getEndTime()) && this.endTime.isAfter(event.getStartTime());
+    return this.startTime.isBefore(event.getEndTime())
+            && this.endTime.isAfter(event.getStartTime());
   }
 }

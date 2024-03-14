@@ -7,16 +7,23 @@ import java.util.List;
 
 import model.Event;
 import model.User;
-import model.plannerSystem;
+import model.PlannerSystem;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-public class plannerSystemTest {
-  private plannerSystem system;
+
+/**
+ * Test class for testing functionality of the PlannerSystem class.
+ */
+public class PlannerSystemTest {
+  private PlannerSystem system;
 
   @Before
   public void setUp() throws Exception {
-    system = new plannerSystem();
+    system = new PlannerSystem();
   }
 
   @Test

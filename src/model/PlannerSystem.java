@@ -36,7 +36,7 @@ import javax.xml.transform.stream.StreamResult;
  * For all events in a user's schedule, the start time is before the end time.
  * No two events in a user's schedule overlap in time.
  */
-public class plannerSystem implements plannerSystemModel {
+public class PlannerSystem implements PlannerSystemModel {
 
   private Map<String, User> users = new HashMap<>();
 
@@ -65,25 +65,31 @@ public class plannerSystem implements plannerSystemModel {
           Element eElement = (Element) nNode;
 
           // Extract event details from XML
-          String name = eElement.getElementsByTagName("name").item(0).getTextContent().replace("\"", "");
+          String name = eElement.getElementsByTagName("name")
+                  .item(0).getTextContent().replace("\"", "");
           String startDay = eElement.getElementsByTagName("start-day").item(0).getTextContent();
           String startTimeString = eElement.getElementsByTagName("start").item(0).getTextContent();
           String endDay = eElement.getElementsByTagName("end-day").item(0).getTextContent();
           String endTimeString = eElement.getElementsByTagName("end").item(0).getTextContent();
-          boolean isOnline = Boolean.parseBoolean(eElement.getElementsByTagName("online").item(0).getTextContent());
-          String place = eElement.getElementsByTagName("place").item(0).getTextContent().replace("\"", "");
+          boolean isOnline = Boolean.parseBoolean(eElement.getElementsByTagName("online")
+                  .item(0).getTextContent());
+          String place = eElement.getElementsByTagName("place")
+                  .item(0).getTextContent().replace("\"", "");
 
           // Parse the time string into LocalDateTime objects
           DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
           LocalTime startTime = LocalTime.parse(startTimeString, timeFormatter);
           LocalTime endTime = LocalTime.parse(endTimeString, timeFormatter);
-          LocalDate startDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.valueOf(startDay.toUpperCase())));
-          LocalDate endDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.valueOf(endDay.toUpperCase())));
+          LocalDate startDate = LocalDate.now()
+                  .with(TemporalAdjusters.next(DayOfWeek.valueOf(startDay.toUpperCase())));
+          LocalDate endDate = LocalDate.now()
+                  .with(TemporalAdjusters.next(DayOfWeek.valueOf(endDay.toUpperCase())));
           LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
           LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
 
           // Create an Event object with the parsed data
-          Event event = new Event(name, startDateTime, endDateTime, place, isOnline, new ArrayList<>());
+          Event event = new Event(name, startDateTime, endDateTime,
+                  place, isOnline, new ArrayList<>());
           user.getSchedule().addEvent(event);
         }
       }

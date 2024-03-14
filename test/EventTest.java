@@ -10,6 +10,9 @@ import model.Event;
 
 import static org.junit.Assert.assertThrows;
 
+/**
+ * Test class for testing functionality of the Event class.
+ */
 public class EventTest {
 
   private Event event;
