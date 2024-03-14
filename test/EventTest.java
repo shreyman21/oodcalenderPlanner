@@ -1,5 +1,3 @@
-
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,7 +78,7 @@ public class EventTest {
     Assert.assertTrue(event.checkForConflict(scienceClass));
   }
 
-  @Test
+  @Test // fix this null pointer exception
   public void testEventCreationWithNull() {
     // Checks null parameters do not work
     // Null start time
@@ -133,7 +131,7 @@ public class EventTest {
             endTime, longestEvent.getEndTime());
   }
 
-  @Test
+  @Test // no argument thrown need to fix
   public void testEventExceedsMaximumDuration() {
     // Checks that maximum duration is not allowed
     LocalDateTime startTime = LocalDateTime.of(2024, 3,

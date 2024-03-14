@@ -1,0 +1,69 @@
+Overview:
+The Event Planner Application is designed to manage and automate the scheduling of events for
+users. The purpose is to create a schedule that avoids overlapping events by creating an easier
+way to create, modify, remove, and view events. Some background knowledge needed are basic
+knowledge of event planning and common scheduling terms such as start and end time. The
+extensibility envisioned focuses on adding more complex scheduling features in the future but it
+currently focuses on basic event management and schedule automation.
+
+
+Quick Start:
+To get started with the Event Planner Application, you first need to create a User and an Event.
+An example is shown below:
+User user = new User("1", "John Doe");
+Event event = new Event("Meeting", LocalDateTime.now(), LocalDateTime.now().plusHours(1),
+                        "Conference Room", false, new ArrayList<>(), new ArrayList<>());
+user.getSchedule().addEvent(event);
+
+This snippet demonstrates how to create a user, create an event, and add the event to the user's
+schedule.
+
+
+Key Components and Subcomponents:
+- plannerSystem
+  The plannerSystem is the main component for managing users and their events. It provides the
+  core functions for scheduling events, including uploading schedules from XML files, saving
+  schedules, and performing other main functions like creating, modifying, removing, and
+  auto-scheduling events. It interfaces with all other components to ensure smooth operation of
+  the application.
+
+- Event:
+This component represents a scheduled event, with details such as event name, start and end times,
+location, and whether it's online or in-person.
+
+- User:
+This component is for user details and their schedule. Each user has a unique ID and a name,
+along with a Schedule object that holds their events.
+
+- Schedule:
+This component is a collection of Event objects. It provides methods to add, remove,
+and list events.
+
+- Utils:
+This component has the utility methods for reading from and writing to XML files, and other
+utility operations that support the main functionalities of the application.
+
+- textualView:
+This component is used to display the schedules of each user in a readable format. It formats the
+event details and schedules into the appropriate output. It the provides the name, time, location,
+online status, and invitees, making it easier for users to understand their schedules at a glance.
+
+
+Source Organization:
+The codebase is organized into the model package:
+/model/User.java: Defines the User class with user details and schedule.
+/model/Event.java: Represents individual events.
+/model/Schedule.java: Manages a collection of events for a user.
+/model/plannerSystem.java: Core system for managing users and their events.
+/model/plannerSystemModel.java: Interface defining the operations supported by the planner system.
+
+There is also the view package which contains the textualView:
+/view/textualView.java: Implements the plannerView interface to display users' schedules in a text
+format. It formats and prints schedule and event details to the console in a specific format.
+
+The test package contains the tests for the other packages:
+/test/model/: Contains unit tests for classes within the model package, ensuring that the
+logic and data models behave as expected as well as tests for edge cases.
+
+/test/view/: Contains tests for the textualView class, verifying that the presentation
+layer correctly formats and displays data.
