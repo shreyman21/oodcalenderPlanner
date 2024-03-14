@@ -40,6 +40,13 @@ public class PlannerSystem implements PlannerSystemModel {
 
   private Map<String, User> users = new HashMap<>();
 
+  /**
+   * Constructs a new PlannerSystem object.
+   */
+  public PlannerSystem() {
+
+  }
+
   @Override
   public boolean uploadSchedule(String xmlFilePath, User user) {
     if (user == null) {
