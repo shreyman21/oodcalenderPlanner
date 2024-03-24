@@ -40,13 +40,6 @@ public class PlannerSystem implements PlannerSystemModel {
 
   private Map<String, User> users = new HashMap<>();
 
-  /**
-   * Constructs a new PlannerSystem object.
-   */
-  public PlannerSystem() {
-
-  }
-
   @Override
   public boolean uploadSchedule(String xmlFilePath, User user) {
     if (user == null) {
@@ -63,7 +56,6 @@ public class PlannerSystem implements PlannerSystemModel {
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       Document doc = dBuilder.parse(xmlFile);
       doc.getDocumentElement().normalize();
-
       NodeList nList = doc.getElementsByTagName("event");
 
       for (int i = 0; i < nList.getLength(); i++) {
@@ -93,7 +85,6 @@ public class PlannerSystem implements PlannerSystemModel {
                   .with(TemporalAdjusters.next(DayOfWeek.valueOf(endDay.toUpperCase())));
           LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
           LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-
           // Create an Event object with the parsed data
           Event event = new Event(name, startDateTime, endDateTime,
                   place, isOnline, new ArrayList<>());
@@ -162,6 +153,7 @@ public class PlannerSystem implements PlannerSystemModel {
     }
   }
 
+  @Override
   public void addUser(User user) {
     if (user == null || users.containsKey(user.getId())) {
       throw new IllegalArgumentException("Invalid user or user already exists.");
@@ -169,10 +161,12 @@ public class PlannerSystem implements PlannerSystemModel {
     users.put(user.getId(), user);
   }
 
+  @Override
   public User getUser(String userId) {
     return users.get(userId);
   }
 
+  @Override
   public void selectAndModifyUserSchedule(String userId) {
     User user = getUser(userId);
     if (user != null) {

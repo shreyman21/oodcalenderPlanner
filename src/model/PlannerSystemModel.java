@@ -111,4 +111,26 @@ public interface PlannerSystemModel {
    * @return a list of all users in the system
    */
   List<User> getUsers();
+
+  /**
+   * Add a user to the system.
+   *
+   * @param user the user to add
+   */
+  void addUser(User user);
+
+  /**
+   * Get a user from the system.
+   *
+   * @param userId the id of the user to get
+   * @return the user with the given id
+   */
+  User getUser(String userId);
+
+  /**
+   * Select and modify a user's schedule.
+   *
+   * @param userId the id of the user to select and modify
+   */
+  void selectAndModifyUserSchedule(String userId);
 }
