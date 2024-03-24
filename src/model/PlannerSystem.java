@@ -279,7 +279,9 @@ public class PlannerSystem implements PlannerSystemModel {
     return eventsAtTime;
   }
 
+  @Override
   public List<User> getUsers() {
     return new ArrayList<>(users.values());
   }
+
 }
