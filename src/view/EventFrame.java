@@ -5,6 +5,7 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.time.LocalDateTime;
 
 
 import javax.swing.*;
@@ -147,6 +148,11 @@ public class EventFrame extends JFrame {
     JMenuBar menuBar = new JMenuBar();
     menuBar.add(fileMenu);
     setJMenuBar(menuBar);
+  }
+
+  public void setStartTime(LocalDateTime startTime) {
+    startDayComboBox.setSelectedItem(startTime.getDayOfWeek().toString());
+    startTimeField.setText(startTime.toLocalTime().toString());
   }
 
 

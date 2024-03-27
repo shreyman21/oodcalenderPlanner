@@ -4,8 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 import model.Event;
@@ -93,19 +99,51 @@ public class MainSystemFrame extends JFrame {
         if (currentEvents != null && !currentEvents.isEmpty()) {
           Graphics2D g2d = (Graphics2D) g;
           for (Event event : currentEvents) {
+            System.out.println("Drawing event: " + event.getName());
             LocalDateTime startTime = event.getStartTime();
             LocalDateTime endTime = event.getEndTime();
-            int startX = startTime.getDayOfWeek().getValue() * getWidth() / 7;
-            int startY = startTime.getHour() * getHeight() / 24;
-            int endY = endTime.getHour() * getHeight() / 24;
+            int dayIndex = (startTime.getDayOfWeek().getValue() % 7);
+
+            int startX = dayIndex * getWidth() / 7;
+            int startY = startTime.getHour() * getHeight() / 24 + (startTime.getMinute() * getHeight() / 24 / 60);
+            int endY = endTime.getHour() * getHeight() / 24 + (endTime.getMinute() * getHeight() / 24 / 60);
+            endY = Math.min(endY, getHeight());
+
             int height = endY - startY;
             g2d.setColor(Color.RED);
             g2d.fillRect(startX, startY, getWidth() / 7, height);
           }
         }
       }
+      
     };
     schedulePanel.setPreferredSize(new Dimension(800, 600));
+
+    schedulePanel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
+        // Calculate which tile was clicked
+        int dayWidth = schedulePanel.getWidth() / 7;
+        int hourHeight = schedulePanel.getHeight() / 24;
+        int dayIndex = e.getX() / dayWidth;
+        int hourIndex = e.getY() / hourHeight;
+
+        // Adjust for the start of the week being Sunday
+        DayOfWeek day = DayOfWeek.of((dayIndex + 1) % 7 + 1);
+        LocalTime time = LocalTime.of(hourIndex, 0);
+
+        // Assuming you want the event to start on the next occurrence of that day
+        LocalDate date = LocalDate.now().with(TemporalAdjusters.nextOrSame(day));
+        LocalDateTime startDateTime = LocalDateTime.of(date, time);
+
+        // Open the event creation frame
+        EventFrame eventFrame = new EventFrame(readOnlyModel);
+        // You'll need to modify EventFrame to accept a LocalDateTime for pre-filling the start time
+        eventFrame.setStartTime(startDateTime);
+        eventFrame.setVisible(true);
+      }
+    });
   }
 
   private void initializeButtons() {
@@ -186,6 +224,22 @@ public class MainSystemFrame extends JFrame {
     if (option == JFileChooser.APPROVE_OPTION) {
       File selectedFile = fileChooser.getSelectedFile();
       System.out.println("Load XML file: " + selectedFile.getAbsolutePath());
+
+      PlannerSystem plannerSystem = new PlannerSystem(); // This might be an existing instance
+      User currentUser = new User("1", "Host"); // This might be an existing user
+      boolean isUploaded = plannerSystem.uploadSchedule(selectedFile.getAbsolutePath(), currentUser);
+
+      for (Event event : currentUser.getSchedule().getEvents()) {
+        System.out.println(event.getName());
+      }
+      if (isUploaded) {
+        // Schedule uploaded successfully, now update the view
+        currentEvents = currentUser.getSchedule().getEvents(); // Get the updated events
+        schedulePanel.repaint();
+      } else {
+
+        System.out.println("Failed to upload schedule from XML.");
+      }
     }
   }
 
