@@ -85,19 +85,33 @@ public class MainSystemFrame extends JFrame {
 
   private void drawScheduleGrid(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setColor(Color.BLACK);
-
-    // Assuming 24 hour-long grid, 7 days a week
     int panelHeight = schedulePanel.getHeight();
     int panelWidth = schedulePanel.getWidth();
-    int hourHeight = panelHeight / 24; // for 24 hours
-    int dayWidth = panelWidth / 7; // for 7 days
+
+    int hourHeight = panelHeight / 24;
+    int dayWidth = panelWidth / 7;
+
+    // Set the color for regular lines
+    g2d.setColor(Color.LIGHT_GRAY);
+    Stroke defaultStroke = g2d.getStroke(); // Save the default stroke
 
     // Draw hour lines
     for (int i = 0; i <= 24; i++) {
-      g2d.drawLine(0, i * hourHeight, panelWidth, i * hourHeight);
+      if (i % 4 == 0) { // Bold line for every fourth hour
+        g2d.setStroke(new BasicStroke(2)); // Use a thicker stroke
+        g2d.setColor(Color.BLACK); // Set color for bold lines
+      } else {
+        g2d.setStroke(defaultStroke); // Revert to the default stroke
+        g2d.setColor(Color.LIGHT_GRAY); // Set color for regular lines
+      }
+      g2d.drawLine(0, i * hourHeight, panelWidth, i * hourHeight); // Draw the line
+
+      // Reset to default stroke and color after each line
+      g2d.setStroke(defaultStroke);
+      g2d.setColor(Color.LIGHT_GRAY);
     }
-    // Draw day lines
+
+    // Draw vertical day lines with the default stroke
     for (int i = 0; i <= 7; i++) {
       g2d.drawLine(i * dayWidth, 0, i * dayWidth, panelHeight);
     }

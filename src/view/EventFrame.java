@@ -1,8 +1,17 @@
 package view;
 
-import javax.swing.*;
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
+
+import javax.swing.*;
+
+import model.PlannerSystem;
+import model.ReadOnlyModel;
+import model.User;
 
 public class EventFrame extends JFrame {
   private JTextField eventNameField;
@@ -16,8 +25,12 @@ public class EventFrame extends JFrame {
   private JButton createButton;
   private JButton modifyButton;
   private JButton removeButton;
+  private ReadOnlyModel readOnlyModel;
+  private JComboBox<String> userComboBox;
 
-  public EventFrame() {
+  public EventFrame(ReadOnlyModel model) {
+    this.readOnlyModel = model;
+
     eventNameField = new JTextField();
     locationField = new JTextField();
     isOnlineCheckBox = new JCheckBox("Is online");
@@ -35,11 +48,29 @@ public class EventFrame extends JFrame {
     createButton = new JButton("Create event");
     modifyButton = new JButton("Modify event");
     removeButton = new JButton("Remove event");
+    initializeUserComboBox();
+
 
     createButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        // Implement creation logic
+        String eventName = eventNameField.getText();
+        String location = locationField.getText();
+        boolean isOnline = isOnlineCheckBox.isSelected();
+        String startDay = (String) startDayComboBox.getSelectedItem();
+        String startTime = startTimeField.getText();
+        String endDay = (String) endDayComboBox.getSelectedItem();
+        String endTime = endTimeField.getText();
+        // Assume userComboBox has been initialized and populated with users
+        String selectedUser = (String) userComboBox.getSelectedItem();
+
+        if (eventName.isEmpty() || location.isEmpty() || startDay == null || startTime.isEmpty()
+                || endDay == null || endTime.isEmpty() || selectedUser == null) {
+          System.out.println("Error: Missing information for creating event.");
+        } else {
+          System.out.println("Create event: " + eventName + ", " + location + ", " + startDay
+                  + ", " + startTime + ", " + endDay + ", " + endTime + ", Online: " + isOnline);
+        }
       }
     });
 
@@ -77,6 +108,14 @@ public class EventFrame extends JFrame {
     setVisible(true);
   }
 
+  private void initializeUserComboBox() {
+    DefaultComboBoxModel<String> userModel = new DefaultComboBoxModel<>();
+    for (User user : readOnlyModel.getUsers()) { // Assuming getUsers() returns a collection of User objects
+      userModel.addElement(user.getName()); // Assuming User has a getName() method
+    }
+    userComboBox = new JComboBox<>(userModel); // Populate the combo box with user names
+  }
+
   private JPanel createLabelAndComponent(String labelText, JComponent component) {
     JLabel label = new JLabel(labelText);
     JPanel panel = new JPanel();
@@ -86,11 +125,37 @@ public class EventFrame extends JFrame {
     return panel;
   }
 
+  private void initializeFileMenu() {
+    JMenu fileMenu = new JMenu("File");
+
+    JMenuItem loadXmlMenuItem = new JMenuItem("Load XML");
+    loadXmlMenuItem.addActionListener(e -> {
+      JFileChooser fileChooser = new JFileChooser();
+      int option = fileChooser.showOpenDialog(this);
+      if (option == JFileChooser.APPROVE_OPTION) {
+        File selectedFile = fileChooser.getSelectedFile();
+        System.out.println("XML file chosen: " + selectedFile.getAbsolutePath());
+        // Here you would actually load the XML file, but for this assignment just print the path
+      }
+    });
+    fileMenu.add(loadXmlMenuItem);
+
+    JMenuItem saveCalendarsMenuItem = new JMenuItem("Save Calendars");
+    // Add action listener to saveCalendarsMenuItem if needed
+
+    fileMenu.add(saveCalendarsMenuItem);
+    JMenuBar menuBar = new JMenuBar();
+    menuBar.add(fileMenu);
+    setJMenuBar(menuBar);
+  }
+
+
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
-        new EventFrame();
+        ReadOnlyModel model = new PlannerSystem();
+        new EventFrame(model);
       }
     });
   }
