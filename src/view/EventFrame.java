@@ -42,7 +42,7 @@ public class EventFrame extends JFrame {
     startTimeField = new JTextField();
     endTimeField = new JTextField();
 
-    String[] users = {"Prof. Lucia", "Chat", "Student Anon"}; // Replace with dynamic user data
+    String[] users = readOnlyModel.getUsers().stream().map(User::getName).toArray(String[]::new);
     userList = new JList<>(users);
 
     createButton = new JButton("Create event");

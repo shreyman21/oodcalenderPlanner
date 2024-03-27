@@ -4,6 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import model.PlannerSystem;
+import model.ReadOnlyModel;
+import model.User;
 
 public class MainSystemFrame extends JFrame {
   private JMenuBar menuBar;
@@ -14,20 +21,41 @@ public class MainSystemFrame extends JFrame {
   private JButton createEventButton;
   private JButton scheduleEventButton;
   private JComboBox<String> userComboBox;
+  private ReadOnlyModel readOnlyModel = new PlannerSystem();
+
+  private List<Event> currentEvents;
 
   public MainSystemFrame() {
     initializeMenu();
     initializeSchedulePanel();
     initializeButtons();
+    initializeUserComboBox();
     setupFrameLayout();
     configureFrame();
   }
 
+  private void initializeUserComboBox() {
+    String[] users = readOnlyModel.getUsers().stream().map(user -> user.getName()).toArray(String[]::new);
+    userComboBox = new JComboBox<>(users);
+    userComboBox.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        // User selection logic
+      }
+    });
+  }
+
+
   private void initializeMenu() {
     menuBar = new JMenuBar();
     fileMenu = new JMenu("File");
-    addCalendarMenuItem = new JMenuItem("Add calendar");
+
+    addCalendarMenuItem = new JMenuItem("Load calendar");
+    addCalendarMenuItem.addActionListener(e -> openFileChooserForLoad()); // Added action listener
+
     saveCalendarsMenuItem = new JMenuItem("Save calendars");
+    saveCalendarsMenuItem.addActionListener(e -> openFileChooserForSave()); // Added action listener
+
     fileMenu.add(addCalendarMenuItem);
     fileMenu.add(saveCalendarsMenuItem);
     menuBar.add(fileMenu);
@@ -47,14 +75,18 @@ public class MainSystemFrame extends JFrame {
     schedulePanel.setPreferredSize(new Dimension(800, 600));
   }
 
+
+
   private void initializeButtons() {
     createEventButton = new JButton("Create event");
     scheduleEventButton = new JButton("Schedule event");
-    // Add action listeners to buttons
+
     createEventButton.addActionListener(new ActionListener() {
+
       @Override
       public void actionPerformed(ActionEvent e) {
-        // Create event logic
+        EventFrame eventFrame = new EventFrame(readOnlyModel);
+        eventFrame.setVisible(true);
       }
     });
     scheduleEventButton.addActionListener(new ActionListener() {
@@ -116,6 +148,27 @@ public class MainSystemFrame extends JFrame {
       g2d.drawLine(i * dayWidth, 0, i * dayWidth, panelHeight);
     }
   }
+
+  private void openFileChooserForLoad() {
+    JFileChooser fileChooser = new JFileChooser();
+    int option = fileChooser.showOpenDialog(this);
+    if (option == JFileChooser.APPROVE_OPTION) {
+      File selectedFile = fileChooser.getSelectedFile();
+      System.out.println("Load XML file: " + selectedFile.getAbsolutePath());
+    }
+  }
+
+  private void openFileChooserForSave() {
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    int option = fileChooser.showSaveDialog(this);
+    if (option == JFileChooser.APPROVE_OPTION) {
+      File selectedDirectory = fileChooser.getSelectedFile();
+      System.out.println("Save to directory: " + selectedDirectory.getAbsolutePath());
+    }
+  }
+
+
 
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
