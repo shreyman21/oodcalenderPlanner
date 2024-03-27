@@ -38,7 +38,6 @@ public class MainSystemFrame extends JFrame {
 
   private void initializeUserComboBox() {
     userComboBox = new JComboBox<>();
-    // add Lucia and John to the userComboBox
     List<User> users = readOnlyModel.getUsers();
     for (User user : users) {
       userComboBox.addItem(user.getName());
@@ -48,26 +47,36 @@ public class MainSystemFrame extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         String selectedUser = (String) userComboBox.getSelectedItem();
-        User user = readOnlyModel.getUser(selectedUser);
-        currentEvents = user.getEvents();
-        System.out.println("Events for user: " + selectedUser);
-        for (Event event : currentEvents) {
-          System.out.println(event.getName() + " " + event.getStartTime() + " " + event.getEndTime());
+        if (selectedUser != null) {
+          User user = readOnlyModel.getUserByName(selectedUser);
+          if (user != null) {
+            currentEvents = user.getEvents();
+            if (currentEvents != null) {
+              schedulePanel.repaint();
+            } else {
+              System.out.println("The event list for the user is null.");
+            }
+          } else {
+            System.out.println("No user found with the name: " + selectedUser);
+          }
+        } else {
+          System.out.println("No user is selected.");
         }
-        schedulePanel.repaint();
       }
     });
   }
+
+
 
   private void initializeMenu() {
     menuBar = new JMenuBar();
     fileMenu = new JMenu("File");
 
     addCalendarMenuItem = new JMenuItem("Load calendar");
-    addCalendarMenuItem.addActionListener(e -> openFileChooserForLoad()); // Added action listener
+    addCalendarMenuItem.addActionListener(e -> openFileChooserForLoad());
 
     saveCalendarsMenuItem = new JMenuItem("Save calendars");
-    saveCalendarsMenuItem.addActionListener(e -> openFileChooserForSave()); // Added action listener
+    saveCalendarsMenuItem.addActionListener(e -> openFileChooserForSave());
 
     fileMenu.add(addCalendarMenuItem);
     fileMenu.add(saveCalendarsMenuItem);
@@ -99,10 +108,6 @@ public class MainSystemFrame extends JFrame {
     schedulePanel.setPreferredSize(new Dimension(800, 600));
   }
 
-  // need to draw red box for each event
-
-
-
   private void initializeButtons() {
     createEventButton = new JButton("Create event");
     scheduleEventButton = new JButton("Schedule event");
@@ -124,24 +129,19 @@ public class MainSystemFrame extends JFrame {
   }
 
   private void setupFrameLayout() {
-    // Setup top panel with user combo box
-    JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Ensure layout manager is set for proper alignment
+    JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     topPanel.add(new JLabel("Select User:"));
     topPanel.add(userComboBox);
 
-    // Setup button panel at the bottom
-    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // You can adjust layout manager as needed
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     buttonPanel.add(createEventButton);
     buttonPanel.add(scheduleEventButton);
 
-    // Set the main layout and add components
     setLayout(new BorderLayout());
-    add(topPanel, BorderLayout.NORTH); // Add top panel to the north
-    add(schedulePanel, BorderLayout.CENTER); // Add schedule panel to the center
-    add(buttonPanel, BorderLayout.SOUTH); // Add button panel to the south
+    add(topPanel, BorderLayout.NORTH);
+    add(schedulePanel, BorderLayout.CENTER);
+    add(buttonPanel, BorderLayout.SOUTH);
   }
-
-
 
   private void configureFrame() {
     pack();
@@ -157,27 +157,24 @@ public class MainSystemFrame extends JFrame {
     int hourHeight = panelHeight / 24;
     int dayWidth = panelWidth / 7;
 
-    // Set the color for regular lines
+
     g2d.setColor(Color.LIGHT_GRAY);
-    Stroke defaultStroke = g2d.getStroke(); // Save the default stroke
+    Stroke defaultStroke = g2d.getStroke();
 
     // Draw hour lines
     for (int i = 0; i <= 24; i++) {
       if (i % 4 == 0) { // Bold line for every fourth hour
-        g2d.setStroke(new BasicStroke(2)); // Use a thicker stroke
-        g2d.setColor(Color.BLACK); // Set color for bold lines
+        g2d.setStroke(new BasicStroke(2));
+        g2d.setColor(Color.BLACK);
       } else {
-        g2d.setStroke(defaultStroke); // Revert to the default stroke
-        g2d.setColor(Color.LIGHT_GRAY); // Set color for regular lines
+        g2d.setStroke(defaultStroke);
+        g2d.setColor(Color.LIGHT_GRAY);
       }
-      g2d.drawLine(0, i * hourHeight, panelWidth, i * hourHeight); // Draw the line
-
-      // Reset to default stroke and color after each line
+      g2d.drawLine(0, i * hourHeight, panelWidth, i * hourHeight);
       g2d.setStroke(defaultStroke);
       g2d.setColor(Color.LIGHT_GRAY);
     }
 
-    // Draw vertical day lines with the default stroke
     for (int i = 0; i <= 7; i++) {
       g2d.drawLine(i * dayWidth, 0, i * dayWidth, panelHeight);
     }

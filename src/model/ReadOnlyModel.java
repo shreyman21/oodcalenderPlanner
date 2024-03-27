@@ -35,4 +35,6 @@ public interface ReadOnlyModel {
    * @return a list of all events in the system
    */
   List<Event> getEvents();
+
+  public User getUserByName(String name);
 }

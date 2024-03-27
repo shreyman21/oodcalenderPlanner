@@ -41,10 +41,10 @@ public class PlannerSystem implements PlannerSystemModel {
   private Map<String, User> users = new HashMap<>();
 
   public PlannerSystem() {
-    // Load some default users and schedules
-    User user1 = new User("John Doe", "1");
-    User user2 = new User("Jane Smith", "2");
-    // ... Add events to these users ...
+
+    User user1 = new User("1", "John");
+    User user2 = new User("2", "Jane");
+
     user1.getSchedule().addEvent(new Event("Meeting", LocalDateTime.now(),
             LocalDateTime.now().plusHours(1), "Room 101", false, new ArrayList<>()));
 
@@ -307,6 +307,15 @@ public class PlannerSystem implements PlannerSystemModel {
       events.addAll(user.getSchedule().getEvents());
     }
     return events;
+  }
+
+  public User getUserByName(String name) {
+    for (User user : users.values()) {
+      if (user.getName().equals(name)) {
+        return user;
+      }
+    }
+    return null;
   }
 
 
