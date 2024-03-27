@@ -29,4 +29,10 @@ public interface ReadOnlyModel {
    * @return a list of all users in the system
    */
   List<User> getUsers();
+
+  /**
+   * Get all events in the system as a list.
+   * @return a list of all events in the system
+   */
+  List<Event> getEvents();
 }

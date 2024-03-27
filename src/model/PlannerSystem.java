@@ -40,6 +40,22 @@ public class PlannerSystem implements PlannerSystemModel {
 
   private Map<String, User> users = new HashMap<>();
 
+  public PlannerSystem() {
+    // Load some default users and schedules
+    User user1 = new User("John Doe", "1");
+    User user2 = new User("Jane Smith", "2");
+    // ... Add events to these users ...
+    user1.getSchedule().addEvent(new Event("Meeting", LocalDateTime.now(),
+            LocalDateTime.now().plusHours(1), "Room 101", false, new ArrayList<>()));
+
+    user2.getSchedule().addEvent(new Event("Lunch", LocalDateTime.now().plusHours(1),
+            LocalDateTime.now().plusHours(2), "Cafeteria", false, new ArrayList<>()));
+
+    this.addUser(user1);
+    this.addUser(user2);
+  }
+
+
   @Override
   public boolean uploadSchedule(String xmlFilePath, User user) {
     if (user == null) {
@@ -284,7 +300,14 @@ public class PlannerSystem implements PlannerSystemModel {
     return new ArrayList<>(users.values());
   }
 
-
+  @Override
+  public List<Event> getEvents() {
+    List<Event> events = new ArrayList<>();
+    for (User user : users.values()) {
+      events.addAll(user.getSchedule().getEvents());
+    }
+    return events;
+  }
 
 
 }

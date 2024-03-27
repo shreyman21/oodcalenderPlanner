@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 /**
  * This class represents a user in the calendar system.
  * Each user has a unique ID, a name, and a schedule.
@@ -33,6 +35,14 @@ public class User {
   public Schedule getSchedule() {
     return schedule;
   }
+
+  //get events
+  public List<Event> getEvents() {
+    return schedule.getEvents();
+  }
+
+
+
 
 
 }

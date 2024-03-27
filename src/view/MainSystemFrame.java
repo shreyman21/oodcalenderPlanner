@@ -8,6 +8,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import model.Event;
 import model.PlannerSystem;
 import model.ReadOnlyModel;
 import model.User;
@@ -21,11 +22,12 @@ public class MainSystemFrame extends JFrame {
   private JButton createEventButton;
   private JButton scheduleEventButton;
   private JComboBox<String> userComboBox;
-  private ReadOnlyModel readOnlyModel = new PlannerSystem();
+  private ReadOnlyModel readOnlyModel;
 
   private List<Event> currentEvents;
 
-  public MainSystemFrame() {
+  public MainSystemFrame(ReadOnlyModel model) {
+    this.readOnlyModel = model;
     initializeMenu();
     initializeSchedulePanel();
     initializeButtons();
@@ -35,16 +37,27 @@ public class MainSystemFrame extends JFrame {
   }
 
   private void initializeUserComboBox() {
-    String[] users = readOnlyModel.getUsers().stream().map(user -> user.getName()).toArray(String[]::new);
-    userComboBox = new JComboBox<>(users);
+    userComboBox = new JComboBox<>();
+    // add Lucia and John to the userComboBox
+    List<User> users = readOnlyModel.getUsers();
+    for (User user : users) {
+      userComboBox.addItem(user.getName());
+    }
+
     userComboBox.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        // User selection logic
+        String selectedUser = (String) userComboBox.getSelectedItem();
+        User user = readOnlyModel.getUser(selectedUser);
+        currentEvents = user.getEvents();
+        System.out.println("Events for user: " + selectedUser);
+        for (Event event : currentEvents) {
+          System.out.println(event.getName() + " " + event.getStartTime() + " " + event.getEndTime());
+        }
+        schedulePanel.repaint();
       }
     });
   }
-
 
   private void initializeMenu() {
     menuBar = new JMenuBar();
@@ -68,12 +81,25 @@ public class MainSystemFrame extends JFrame {
       protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawScheduleGrid(g);
-        // set sechedule grid to size of panel
-
+        if (currentEvents != null && !currentEvents.isEmpty()) {
+          Graphics2D g2d = (Graphics2D) g;
+          for (Event event : currentEvents) {
+            LocalDateTime startTime = event.getStartTime();
+            LocalDateTime endTime = event.getEndTime();
+            int startX = startTime.getDayOfWeek().getValue() * getWidth() / 7;
+            int startY = startTime.getHour() * getHeight() / 24;
+            int endY = endTime.getHour() * getHeight() / 24;
+            int height = endY - startY;
+            g2d.setColor(Color.RED);
+            g2d.fillRect(startX, startY, getWidth() / 7, height);
+          }
+        }
       }
     };
     schedulePanel.setPreferredSize(new Dimension(800, 600));
   }
+
+  // need to draw red box for each event
 
 
 
@@ -98,13 +124,21 @@ public class MainSystemFrame extends JFrame {
   }
 
   private void setupFrameLayout() {
-    // Main layout setup
-    setLayout(new BorderLayout());
-    add(schedulePanel, BorderLayout.CENTER);
-    JPanel buttonPanel = new JPanel();
+    // Setup top panel with user combo box
+    JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Ensure layout manager is set for proper alignment
+    topPanel.add(new JLabel("Select User:"));
+    topPanel.add(userComboBox);
+
+    // Setup button panel at the bottom
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // You can adjust layout manager as needed
     buttonPanel.add(createEventButton);
     buttonPanel.add(scheduleEventButton);
-    add(buttonPanel, BorderLayout.SOUTH);
+
+    // Set the main layout and add components
+    setLayout(new BorderLayout());
+    add(topPanel, BorderLayout.NORTH); // Add top panel to the north
+    add(schedulePanel, BorderLayout.CENTER); // Add schedule panel to the center
+    add(buttonPanel, BorderLayout.SOUTH); // Add button panel to the south
   }
 
 
@@ -174,7 +208,7 @@ public class MainSystemFrame extends JFrame {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
-        new MainSystemFrame();
+        new MainSystemFrame( new PlannerSystem());
       }
     });
   }

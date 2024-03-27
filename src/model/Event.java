@@ -92,4 +92,13 @@ public class Event {
     return this.startTime.isBefore(event.getEndTime())
             && this.endTime.isAfter(event.getStartTime());
   }
+
+
+  public LocalDateTime getStart() {
+    return startTime;
+  }
+
+  public LocalDateTime getEnd() {
+    return endTime;
+  }
 }
