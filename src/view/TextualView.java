@@ -12,6 +12,11 @@ import model.User;
  * It implements the plannerView interface.
  */
 public class TextualView implements PlannerView {
+  /**
+   * Displays each users' schedule with the proper formatting in a textual view.
+   *
+   * @param users the list of users to display
+   */
   @Override
   public void displayUsersSchedules(List<User> users) {
     for (User user : users) {

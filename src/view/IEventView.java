@@ -1,4 +1,7 @@
 package view;
 
-public class IEventView {
+/**
+ * This interface represents the view for the event panel.
+ */
+public interface IEventView {
 }

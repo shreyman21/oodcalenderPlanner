@@ -20,12 +20,13 @@ import model.PlannerSystem;
 import model.ReadOnlyModel;
 import model.User;
 
+/**
+ * The main system frame for the planner.
+ * This frame displays the schedule for each user in a graphical view.
+ * Allows the user to select a user, create events, and schedule events.
+ */
 public class MainSystemFrame extends JFrame {
-  private JMenuBar menuBar;
-  private JMenu fileMenu;
-  private JMenuItem addCalendarMenuItem;
-  private JMenuItem saveCalendarsMenuItem;
-  private JPanel schedulePanel;
+  private static JPanel schedulePanel;
   private JButton createEventButton;
   private JButton scheduleEventButton;
   private JComboBox<String> userComboBox;
@@ -33,6 +34,10 @@ public class MainSystemFrame extends JFrame {
 
   private List<Event> currentEvents;
 
+  /**
+   * Constructs a MainSystemFrame with the given model.
+   * @param model the model to use
+   */
   public MainSystemFrame(ReadOnlyModel model) {
     this.readOnlyModel = model;
     initializeMenu();
@@ -43,6 +48,10 @@ public class MainSystemFrame extends JFrame {
     configureFrame();
   }
 
+  /**
+   * The main method to start the application.
+   * @param args the command-line arguments
+   */
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
@@ -51,6 +60,8 @@ public class MainSystemFrame extends JFrame {
       }
     });
   }
+
+
 
   private void initializeUserComboBox() {
     userComboBox = new JComboBox<>();
@@ -83,13 +94,13 @@ public class MainSystemFrame extends JFrame {
   }
 
   private void initializeMenu() {
-    menuBar = new JMenuBar();
-    fileMenu = new JMenu("File");
+    JMenuBar menuBar = new JMenuBar();
+    JMenu fileMenu = new JMenu("File");
 
-    addCalendarMenuItem = new JMenuItem("Load calendar");
+    JMenuItem addCalendarMenuItem = new JMenuItem("Load calendar");
     addCalendarMenuItem.addActionListener(e -> openFileChooserForLoad());
 
-    saveCalendarsMenuItem = new JMenuItem("Save calendars");
+    JMenuItem saveCalendarsMenuItem = new JMenuItem("Save calendars");
     saveCalendarsMenuItem.addActionListener(e -> openFileChooserForSave());
 
     fileMenu.add(addCalendarMenuItem);
@@ -164,17 +175,11 @@ public class MainSystemFrame extends JFrame {
         int dayIndex = e.getX() / dayWidth;
         int hourIndex = e.getY() / hourHeight;
 
-        // Adjust for the start of the week being Sunday
         DayOfWeek day = DayOfWeek.of((dayIndex + 1) % 7 + 1);
         LocalTime time = LocalTime.of(hourIndex, 0);
-
-        // Assuming you want the event to start on the next occurrence of that day
         LocalDate date = LocalDate.now().with(TemporalAdjusters.nextOrSame(day));
         LocalDateTime startDateTime = LocalDateTime.of(date, time);
-
-        // Open the event creation frame
         EventFrame eventFrame = new EventFrame(readOnlyModel);
-        // You'll need to modify EventFrame to accept a LocalDateTime for pre-filling the start time
         eventFrame.setStartTime(startDateTime);
         eventFrame.setVisible(true);
       }
@@ -316,6 +321,13 @@ public class MainSystemFrame extends JFrame {
         System.out.println("Failed to upload schedule from XML.");
       }
     }
+  }
+
+  /**
+   * Refreshes the schedule display.
+   */
+  public static void refreshScheduleDisplay() {
+    schedulePanel.repaint();
   }
 
   private void openFileChooserForSave() {

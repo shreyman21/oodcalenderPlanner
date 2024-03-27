@@ -72,3 +72,39 @@ Class Invariance:
 User: The user ID and name are immutable and unique. Every User in the plannerSystem must have
 a unique identifier. This ensures that no two users can have the same ID, preserving the integrity
 of user data and schedules.
+
+CHANGES FOR PART 2:
+We noticed a functionality that we needed to utilize was missing from our system which was the
+ability to retrieve and compile a list of events form all users' schedules. In many applications,
+there's a need to view or analyze events across multiple schedules including finding a common
+time slot or a comprehensive event timeline. To address this, we made a method called getEvents
+in the PlannerSystem class.
+It initializes an empty list of events and then iterates over a collection of user objects. For
+each user, it retrieves the users' schedule and adds all th events from the schedule to the initial
+list. The method returns the list of all the events that are scheduled across the system.
+
+New Classes:
+- EventFrame:
+This class is used to represent a GUI frame that is specifically designed for creating, modifying,
+or removing events within the planner system.
+
+- MainSystemFrame
+This class is the main frame for the planner system's GUI. It initializes and displays the main
+components of the system such as the menu bars and the buttons for creating and scheduling events.
+
+New Interfaces:
+- IEventPanelView
+This interface is intended to have the requirements for the a view component that is used to display
+event details within a panel.
+
+- IEventView
+This interface is intended to serve as a contract to create views that display or interact with
+the event data.
+
+- IMainSystemView
+This interface is intended to outline the structure and functionality required for the main view of
+the system.
+
+- IScheduleView
+This interface is intended to define the necessary parts of the view component that displays
+schedules.

@@ -1,12 +1,17 @@
 package view;
 
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.*;
 
@@ -15,6 +20,12 @@ import model.PlannerSystem;
 import model.ReadOnlyModel;
 import model.User;
 
+/**
+ * This class represents a frame for creating, modifying, and removing events.
+ * This frame is used by the user to interact with the system.
+ * The user can create, modify, and remove events using this frame.
+ * This frame is used by the user to interact with the system.
+ */
 public class EventFrame extends JFrame {
   private JTextField eventNameField;
   private JTextField locationField;
@@ -24,12 +35,15 @@ public class EventFrame extends JFrame {
   private JTextField startTimeField;
   private JTextField endTimeField;
   private JList<String> userList;
-  private JButton createButton;
-  private JButton modifyButton;
-  private JButton removeButton;
   private ReadOnlyModel readOnlyModel;
   private JComboBox<String> userComboBox;
 
+  /**
+   * Constructs an EventFrame with the given model.
+   * This frame allows the user to create, modify, and remove events.
+   *
+   * @param model the model to use
+   */
   public EventFrame(ReadOnlyModel model) {
     this.readOnlyModel = model;
 
@@ -47,9 +61,9 @@ public class EventFrame extends JFrame {
     String[] users = readOnlyModel.getUsers().stream().map(User::getName).toArray(String[]::new);
     userList = new JList<>(users);
 
-    createButton = new JButton("Create event");
-    modifyButton = new JButton("Modify event");
-    removeButton = new JButton("Remove event");
+    JButton createButton = new JButton("Create event");
+    JButton modifyButton = new JButton("Modify event");
+    JButton removeButton = new JButton("Remove event");
     initializeUserComboBox();
 
 
@@ -63,15 +77,42 @@ public class EventFrame extends JFrame {
         String startTime = startTimeField.getText();
         String endDay = (String) endDayComboBox.getSelectedItem();
         String endTime = endTimeField.getText();
-        // Assume userComboBox has been initialized and populated with users
         String selectedUser = (String) userComboBox.getSelectedItem();
 
         if (eventName.isEmpty() || location.isEmpty() || startDay == null || startTime.isEmpty()
                 || endDay == null || endTime.isEmpty() || selectedUser == null) {
           System.out.println("Error: Missing information for creating event.");
         } else {
-          System.out.println("Create event: " + eventName + ", " + location + ", " + startDay
-                  + ", " + startTime + ", " + endDay + ", " + endTime + ", Online: " + isOnline);
+          // Parse the date and time from the input
+          DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH);
+          DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("Hmm");
+
+          try {
+            DayOfWeek startDayOfWeek = DayOfWeek.from(dateFormatter.parse(startDay));
+            DayOfWeek endDayOfWeek = DayOfWeek.from(dateFormatter.parse(endDay));
+
+            LocalTime startLocalTime = LocalTime.parse(startTime, timeFormatter);
+            LocalTime endLocalTime = LocalTime.parse(endTime, timeFormatter);
+
+            // Assume events happen within the next seven days from now
+            LocalDate today = LocalDate.now();
+            LocalDate startLocalDate = today.with(TemporalAdjusters.nextOrSame(startDayOfWeek));
+            LocalDate endLocalDate = today.with(TemporalAdjusters.nextOrSame(endDayOfWeek));
+
+            LocalDateTime startDateTime = LocalDateTime.of(startLocalDate, startLocalTime);
+            LocalDateTime endDateTime = LocalDateTime.of(endLocalDate, endLocalTime);
+
+            Event event = new Event(eventName, startDateTime,
+                    endDateTime, location, isOnline, new ArrayList<>());
+            readOnlyModel.addEventToUserSchedule(selectedUser, event);
+
+            MainSystemFrame.refreshScheduleDisplay();
+
+            System.out.println("Event created: " + event);
+
+          } catch (DateTimeParseException ex) {
+            System.out.println("Error parsing date or time: " + ex.getMessage());
+          }
         }
       }
     });
@@ -79,14 +120,34 @@ public class EventFrame extends JFrame {
     modifyButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        // Implement modification logic
+        String selectedUser = (String) userComboBox.getSelectedItem();
+        if (selectedUser == null) {
+          System.out.println("Error: No user selected.");
+        } else {
+          User user = readOnlyModel.getUserByName(selectedUser);
+          Event event = user.getSchedule().getEvents().get(userList.getSelectedIndex());
+          Event modifiedEvent = new Event(eventNameField.getText(), LocalDateTime.parse(startTimeField.getText()), LocalDateTime.parse(endTimeField.getText()), locationField.getText(), isOnlineCheckBox.isSelected(), new ArrayList<>());
+          //readOnlyModel.modifyEvent(user, event, modifiedEvent);
+          MainSystemFrame.refreshScheduleDisplay();
+          System.out.println("Event modified: " + modifiedEvent);
+        }
       }
     });
 
     removeButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        // Implement removal logic
+        String selectedUser = (String) userComboBox.getSelectedItem();
+        if (selectedUser == null) {
+          System.out.println("Error: No user selected.");
+        } else {
+          User user = readOnlyModel.getUserByName(selectedUser);
+          Event event = user.getSchedule().getEvents().get(userList.getSelectedIndex());
+          user.getSchedule().getEvents().remove(event);
+          MainSystemFrame.refreshScheduleDisplay();
+          System.out.println("Event removed: " + event);
+
+        }
       }
     });
 
@@ -110,6 +171,21 @@ public class EventFrame extends JFrame {
     setVisible(true);
   }
 
+  /**
+   * Main method to run the EventFrame.
+   *
+   * @param args the command line arguments
+   */
+  public static void main(String[] args) {
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        ReadOnlyModel model = new PlannerSystem();
+        new EventFrame(model);
+      }
+    });
+  }
+
   private void initializeUserComboBox() {
     DefaultComboBoxModel<String> userModel = new DefaultComboBoxModel<>();
     for (User user : readOnlyModel.getUsers()) { // Assuming getUsers() returns a collection of User objects
@@ -127,35 +203,22 @@ public class EventFrame extends JFrame {
     return panel;
   }
 
-  private void initializeFileMenu() {
-    JMenu fileMenu = new JMenu("File");
-
-    JMenuItem loadXmlMenuItem = new JMenuItem("Load XML");
-    loadXmlMenuItem.addActionListener(e -> {
-      JFileChooser fileChooser = new JFileChooser();
-      int option = fileChooser.showOpenDialog(this);
-      if (option == JFileChooser.APPROVE_OPTION) {
-        File selectedFile = fileChooser.getSelectedFile();
-        System.out.println("XML file chosen: " + selectedFile.getAbsolutePath());
-        // Here you would actually load the XML file, but for this assignment just print the path
-      }
-    });
-    fileMenu.add(loadXmlMenuItem);
-
-    JMenuItem saveCalendarsMenuItem = new JMenuItem("Save Calendars");
-    // Add action listener to saveCalendarsMenuItem if needed
-
-    fileMenu.add(saveCalendarsMenuItem);
-    JMenuBar menuBar = new JMenuBar();
-    menuBar.add(fileMenu);
-    setJMenuBar(menuBar);
-  }
-
+  /**
+   * Set the start time of the event.
+   *
+   * @param startTime the start time of the event
+   */
   public void setStartTime(LocalDateTime startTime) {
     startDayComboBox.setSelectedItem(startTime.getDayOfWeek().toString());
     startTimeField.setText(startTime.toLocalTime().toString());
   }
 
+  /**
+   * Populate the event details in the frame.
+   * This method is called when the user selects an event from the list.
+   *
+   * @param event the event to populate the details for
+   */
   public void populateEventDetails(Event event) {
     eventNameField.setText(event.getName());
     locationField.setText(event.getLocation());
@@ -164,17 +227,5 @@ public class EventFrame extends JFrame {
     startTimeField.setText(event.getStartTime().toLocalTime().toString());
     endDayComboBox.setSelectedItem(event.getEndTime().getDayOfWeek().toString());
     endTimeField.setText(event.getEndTime().toLocalTime().toString());
-
-  }
-
-
-  public static void main(String[] args) {
-    SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        ReadOnlyModel model = new PlannerSystem();
-        new EventFrame(model);
-      }
-    });
   }
 }

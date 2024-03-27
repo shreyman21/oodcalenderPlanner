@@ -40,6 +40,11 @@ public class PlannerSystem implements PlannerSystemModel {
 
   private Map<String, User> users = new HashMap<>();
 
+  /**
+   * Constructor for the PlannerSystem class.
+   * This constructor creates a new planner system with two users and some events.
+   * The users and events are hardcoded into the system.
+   */
   public PlannerSystem() {
 
     User user1 = new User("1", "John");
@@ -309,6 +314,7 @@ public class PlannerSystem implements PlannerSystemModel {
     return events;
   }
 
+  @Override
   public User getUserByName(String name) {
     for (User user : users.values()) {
       if (user.getName().equals(name)) {
@@ -316,6 +322,15 @@ public class PlannerSystem implements PlannerSystemModel {
       }
     }
     return null;
+  }
+
+  @Override
+  public void addEventToUserSchedule(String selectedUser, Event event) {
+    User user = getUser(selectedUser);
+    if (user == null) {
+      throw new IllegalArgumentException("User not found");
+    }
+    user.getSchedule().addEvent(event);
   }
 
 

@@ -12,18 +12,36 @@ import java.util.List;
 public class Schedule {
   private List<Event> events;
 
+  /**
+   * Constructs a new Schedule with an empty list of events.
+   */
   public Schedule() {
     this.events = new ArrayList<>();
   }
 
+  /**
+   * Adds a new event to the Schedule.
+   *
+   * @param event the event that is being added
+   */
   public void addEvent(Event event) {
     events.add(event);
   }
 
+  /**
+   * Removes a specific event from the schedule.
+   *
+   * @param event the event to be removed
+   * @return true if the event was successfully removed.
+   */
   public boolean removeEvent(Event event) {
     return events.remove(event);
   }
 
+  /**
+   * Retrieves the current list of events in the Schedule.
+   * @return A new list of the events currently in the Schedule.
+   */
   public List<Event> getEvents() {
     return new ArrayList<>(events);
   }

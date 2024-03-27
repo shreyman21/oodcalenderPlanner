@@ -3,6 +3,10 @@ package model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * This interface represents the read-only model for the planner system.
+ * This model doesn't change the state of the system, but it allows the user to see the events.
+ */
 public interface ReadOnlyModel {
   /**
    * Get a user from the system.
@@ -32,9 +36,23 @@ public interface ReadOnlyModel {
 
   /**
    * Get all events in the system as a list.
+   *
    * @return a list of all events in the system
    */
   List<Event> getEvents();
 
-  public User getUserByName(String name);
+  /**
+   * Gets user by name.
+   *
+   * @return a list of all events in the system
+   */
+  User getUserByName(String name);
+
+  /**
+   * Adds an event to a particular user's schedule.
+   *
+   * @param selectedUser the user to add the event to
+   * @param event        the event to add to the user's schedule
+   */
+  void addEventToUserSchedule(String selectedUser, Event event);
 }

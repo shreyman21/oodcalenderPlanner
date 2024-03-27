@@ -10,7 +10,7 @@ import java.util.List;
  * It also has the functionality to see events occurring at a given time for a given user.
  * This model is used by the controller to interact with the view.
  */
-public interface PlannerSystemModel extends ReadOnlyModel{
+public interface PlannerSystemModel extends ReadOnlyModel {
 
   /**
    * Upload an XML file representing a single user’s schedule.
