@@ -1,6 +1,5 @@
 package view;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +12,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+
+import javax.swing.*;
 
 import model.Event;
 import model.PlannerSystem;
@@ -40,6 +41,15 @@ public class MainSystemFrame extends JFrame {
     initializeUserComboBox();
     setupFrameLayout();
     configureFrame();
+  }
+
+  public static void main(String[] args) {
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        new MainSystemFrame(new PlannerSystem());
+      }
+    });
   }
 
   private void initializeUserComboBox() {
@@ -71,8 +81,6 @@ public class MainSystemFrame extends JFrame {
       }
     });
   }
-
-
 
   private void initializeMenu() {
     menuBar = new JMenuBar();
@@ -115,8 +123,35 @@ public class MainSystemFrame extends JFrame {
           }
         }
       }
-      
+
     };
+
+      addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+          super.mouseClicked(e);
+          // Calculate which tile was clicked
+          int dayWidth = schedulePanel.getWidth() / 7;
+          int hourHeight = schedulePanel.getHeight() / 24;
+          int dayIndex = e.getX() / dayWidth;
+          int hourIndex = e.getY() / hourHeight;
+          // Adjust for the start of the week being Sunday
+          DayOfWeek day = DayOfWeek.of((dayIndex + 1) % 7 + 1);
+          LocalTime time = LocalTime.of(hourIndex, 0);
+
+          // Assuming you want the event to start on the next occurrence of that day
+          LocalDate date = LocalDate.now().with(TemporalAdjusters.nextOrSame(day));
+          LocalDateTime startDateTime = LocalDateTime.of(date, time);
+
+          // Open the event creation frame
+          EventFrame eventFrame = new EventFrame(readOnlyModel);
+          eventFrame.setStartTime(startDateTime);
+          eventFrame.setVisible(true);
+        }
+      }
+      );
+
+
     schedulePanel.setPreferredSize(new Dimension(800, 600));
 
     schedulePanel.addMouseListener(new MouseAdapter() {
@@ -144,6 +179,46 @@ public class MainSystemFrame extends JFrame {
         eventFrame.setVisible(true);
       }
     });
+
+
+    schedulePanel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        int clickedX = e.getX();
+        int clickedY = e.getY();
+
+        int dayWidth = getWidth() / 7;
+        int hourHeight = getHeight() / 24;
+
+        int clickedDayIndex = clickedX / dayWidth + 1;
+        LocalTime timeClicked = LocalTime.of(clickedY / hourHeight, 0);
+
+        for (Event event : currentEvents) {
+          if (eventOccursDuringClick(event, clickedDayIndex, timeClicked)) {
+            EventFrame eventFrame = new EventFrame(readOnlyModel);
+            eventFrame.populateEventDetails(event);
+            eventFrame.setVisible(true);
+            break;
+          }
+        }
+      }
+
+      private boolean eventOccursDuringClick(Event event, int clickedDayIndex, LocalTime timeClicked) {
+        DayOfWeek dayOfWeekEventStart = event.getStartTime().getDayOfWeek();
+        DayOfWeek dayOfWeekEventEnd = event.getEndTime().getDayOfWeek();
+        DayOfWeek dayClicked = DayOfWeek.of(clickedDayIndex);
+
+        boolean isSameDay = (dayOfWeekEventStart.equals(dayClicked) || dayOfWeekEventEnd.equals(dayClicked));
+        boolean isSameTime = (timeClicked.equals(event.getStartTime().toLocalTime()) ||
+                timeClicked.isAfter(event.getStartTime().toLocalTime())) &&
+                (timeClicked.isBefore(event.getEndTime().toLocalTime()));
+
+        return isSameDay && isSameTime;
+      }
+    });
+
+
+
   }
 
   private void initializeButtons() {
@@ -251,16 +326,5 @@ public class MainSystemFrame extends JFrame {
       File selectedDirectory = fileChooser.getSelectedFile();
       System.out.println("Save to directory: " + selectedDirectory.getAbsolutePath());
     }
-  }
-
-
-
-  public static void main(String[] args) {
-    SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        new MainSystemFrame( new PlannerSystem());
-      }
-    });
   }
 }

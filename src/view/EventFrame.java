@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 import javax.swing.*;
 
+import model.Event;
 import model.PlannerSystem;
 import model.ReadOnlyModel;
 import model.User;
@@ -153,6 +154,17 @@ public class EventFrame extends JFrame {
   public void setStartTime(LocalDateTime startTime) {
     startDayComboBox.setSelectedItem(startTime.getDayOfWeek().toString());
     startTimeField.setText(startTime.toLocalTime().toString());
+  }
+
+  public void populateEventDetails(Event event) {
+    eventNameField.setText(event.getName());
+    locationField.setText(event.getLocation());
+    isOnlineCheckBox.setSelected(event.isOnline());
+    startDayComboBox.setSelectedItem(event.getStartTime().getDayOfWeek().toString());
+    startTimeField.setText(event.getStartTime().toLocalTime().toString());
+    endDayComboBox.setSelectedItem(event.getEndTime().getDayOfWeek().toString());
+    endTimeField.setText(event.getEndTime().toLocalTime().toString());
+
   }
 
 
