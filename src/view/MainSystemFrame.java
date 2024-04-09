@@ -20,20 +20,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JFileChooser;
-import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
+
+import javax.swing.*;
+
 import model.Event;
 import model.PlannerSystem;
 import model.ReadOnlyModel;
 import model.User;
-import javax.swing.JMenu;
 
 
 /**
@@ -41,7 +34,7 @@ import javax.swing.JMenu;
  * This frame displays the schedule for each user in a graphical view.
  * Allows the user to select a user, create events, and schedule events.
  */
-public class MainSystemFrame extends JFrame {
+public class MainSystemFrame extends JFrame implements IPlannerView {
   private static JPanel schedulePanel;
   private JButton createEventButton;
   private JButton scheduleEventButton;
@@ -49,6 +42,7 @@ public class MainSystemFrame extends JFrame {
   private ReadOnlyModel readOnlyModel;
 
   private List<Event> currentEvents;
+  private PlannerViewListener viewListener;
 
   /**
    * Constructs a MainSystemFrame with the given model.
@@ -352,5 +346,21 @@ public class MainSystemFrame extends JFrame {
       File selectedDirectory = fileChooser.getSelectedFile();
       System.out.println("Save to directory: " + selectedDirectory.getAbsolutePath());
     }
+  }
+
+  @Override
+  public void updateSchedule(List<Event> events) {
+    currentEvents = events;
+    schedulePanel.repaint();
+  }
+
+  @Override
+  public void setListener(PlannerViewListener listener) {
+    this.viewListener = listener;
+  }
+
+  @Override
+  public void showError(String message) {
+    JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
   }
 }

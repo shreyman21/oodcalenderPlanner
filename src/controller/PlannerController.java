@@ -31,12 +31,10 @@ public class PlannerController {
           JOptionPane.showMessageDialog(null, "Error loading schedule: " + e.getMessage());
         }
       }
-      // Implement other methods defined in the PlannerViewListener interface.
     });
   }
 
   public void start() {
-    // Additional setup if needed
     view.setVisible(true);
   }
 }
