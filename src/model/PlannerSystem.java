@@ -333,5 +333,4 @@ public class PlannerSystem implements PlannerSystemModel {
     user.getSchedule().addEvent(event);
   }
 
-
 }

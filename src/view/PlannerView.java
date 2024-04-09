@@ -2,17 +2,21 @@ package view;
 
 import java.util.List;
 
-import model.User;
+import model.Event;
 
-/**
- * The interface for the planner view.
- * This is the view either in text or graphical form.
- */
-public interface PlannerView {
-  /**
-   * Display each user's schedule with the correct formatting.
-   * Either text or graphical.
-   * @param users the list of users to display
-   */
-  void displayUsersSchedules(List<User> users);
+public class PlannerView {
+
+  private PlannerViewListener listener;
+
+  public void setListener(PlannerViewListener listener) {
+    this.listener = listener;
+  }
+
+  public void updateSchedule(List<Event> events) {
+    // Update the schedule display
+  }
+
+  public void setVisible(boolean b) {
+    // Display the view
+  }
 }

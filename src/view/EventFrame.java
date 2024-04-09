@@ -13,7 +13,20 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.swing.*;
+
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JList;
 
 import model.Event;
 import model.PlannerSystem;
@@ -83,7 +96,7 @@ public class EventFrame extends JFrame {
                 || endDay == null || endTime.isEmpty() || selectedUser == null) {
           System.out.println("Error: Missing information for creating event.");
         } else {
-          // Parse the date and time from the input
+          // Date conversion
           DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH);
           DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("Hmm");
 
@@ -126,7 +139,11 @@ public class EventFrame extends JFrame {
         } else {
           User user = readOnlyModel.getUserByName(selectedUser);
           Event event = user.getSchedule().getEvents().get(userList.getSelectedIndex());
-          Event modifiedEvent = new Event(eventNameField.getText(), LocalDateTime.parse(startTimeField.getText()), LocalDateTime.parse(endTimeField.getText()), locationField.getText(), isOnlineCheckBox.isSelected(), new ArrayList<>());
+          Event modifiedEvent = new Event(eventNameField.getText(),
+                  LocalDateTime.parse(startTimeField.getText()),
+                  LocalDateTime.parse(endTimeField.getText()),
+                  locationField.getText(), isOnlineCheckBox.isSelected(),
+                  new ArrayList<>());
           //readOnlyModel.modifyEvent(user, event, modifiedEvent);
           MainSystemFrame.refreshScheduleDisplay();
           System.out.println("Event modified: " + modifiedEvent);
@@ -188,10 +205,10 @@ public class EventFrame extends JFrame {
 
   private void initializeUserComboBox() {
     DefaultComboBoxModel<String> userModel = new DefaultComboBoxModel<>();
-    for (User user : readOnlyModel.getUsers()) { // Assuming getUsers() returns a collection of User objects
-      userModel.addElement(user.getName()); // Assuming User has a getName() method
+    for (User user : readOnlyModel.getUsers()) {
+      userModel.addElement(user.getName());
     }
-    userComboBox = new JComboBox<>(userModel); // Populate the combo box with user names
+    userComboBox = new JComboBox<>(userModel);
   }
 
   private JPanel createLabelAndComponent(String labelText, JComponent component) {
