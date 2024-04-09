@@ -1,5 +1,6 @@
 package model;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -100,5 +101,15 @@ public class Event {
 
   public LocalDateTime getEnd() {
     return endTime;
+  }
+
+  public long getDuration() {
+    Duration duration = Duration.between(startTime, endTime);
+    return duration.toMinutes();
+  }
+
+  public void setTime(LocalDateTime startSearch) {
+    this.startTime = startSearch;
+    this.endTime = startSearch.plusMinutes(getDuration());
   }
 }

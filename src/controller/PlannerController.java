@@ -5,14 +5,15 @@ import javax.swing.*;
 import model.Event;
 import model.PlannerSystem;
 import model.User;
+import view.MainSystemFrame;
 import view.PlannerView;
 import view.PlannerViewListener;
 
 public class PlannerController {
   private final PlannerSystem model;
-  private final PlannerView view;
+  private final MainSystemFrame view;
 
-  public PlannerController(PlannerSystem model, PlannerView view) {
+  public PlannerController(PlannerSystem model, MainSystemFrame view) {
     this.model = model;
     this.view = view;
     this.view.setListener(new PlannerViewListener() {

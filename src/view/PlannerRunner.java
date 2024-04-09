@@ -13,8 +13,13 @@ public class PlannerRunner {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-    PlannerSystem plannerSystem = new PlannerSystem();
-    MainSystemFrame plannerView = new MainSystemFrame(plannerSystem);
-    plannerView.setVisible(true);
+//    PlannerSystem plannerSystem = new PlannerSystem();
+//    MainSystemFrame plannerView = new MainSystemFrame(plannerSystem);
+//    plannerView.setVisible(true);
+
+    PlannerSystem model = new PlannerSystem();
+    MainSystemFrame view = new MainSystemFrame(model);
+    PlannerController controller = new PlannerController(model, view);
+    controller.start();
   }
 }

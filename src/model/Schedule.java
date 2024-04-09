@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,4 +62,12 @@ public class Schedule {
   }
 
 
+  public boolean isAvailable(LocalDateTime startSearch, LocalDateTime endSearchTime) {
+    for (Event e : events) {
+      if (e.getStartTime().isBefore(endSearchTime) && e.getEndTime().isAfter(startSearch)) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
