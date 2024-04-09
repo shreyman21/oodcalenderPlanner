@@ -9,7 +9,7 @@ public class AnytimeSchedulingStrategy implements SchedulingStrategy {
   // (starting Sunday at 00:00) that allows
   // all invitees and the host to be present and return an event with that block of time.
   @Override
-  public void scheduleEvent(Event event, User host) {
+  public void scheduleEvent(Event event, User host, PlannerSystem plannerSystem) {
     Schedule hostSchedule = host.getSchedule();
     LocalDateTime startSearch = LocalDateTime.now().with(DayOfWeek.SUNDAY)
             .withHour(0).withMinute(0);
@@ -21,7 +21,7 @@ public class AnytimeSchedulingStrategy implements SchedulingStrategy {
       if (hostSchedule.isAvailable(startSearch, endSearchTime)) {
         boolean allInviteesAvailable = true;
         for (String inviteeId : event.getInvitees()) {
-          User invitee = hostSchedule.getUser(inviteeId);
+          User invitee = plannerSystem.getUser(inviteeId);
           if (invitee == null || !invitee.getSchedule().isAvailable(startSearch, endSearchTime)) {
             allInviteesAvailable = false;
             break;
@@ -32,7 +32,7 @@ public class AnytimeSchedulingStrategy implements SchedulingStrategy {
           hostSchedule.addEvent(event); // Add event to host's schedule
           // Assuming we might need to add the event to each invitee's schedule as well
           for (String inviteeId : event.getInvitees()) {
-            User invitee = hostSchedule.getUser(inviteeId);
+            User invitee = plannerSystem.getUser(inviteeId);
             invitee.getSchedule().addEvent(event);
           }
           return; // Event successfully scheduled
@@ -46,8 +46,7 @@ public class AnytimeSchedulingStrategy implements SchedulingStrategy {
         break;
       }
     }
-    // Handle the case where no suitable time was found within the week.
-    // This might involve setting an error on the event, logging a message, etc.
 
+    //TODO: Handle case where no suitable time was found
   }
 }
