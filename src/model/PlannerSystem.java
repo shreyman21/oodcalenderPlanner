@@ -337,4 +337,12 @@ public class PlannerSystem implements PlannerSystemModel {
     user.getSchedule().addEvent(event);
   }
 
+
+  public void createEventBasedOnStrategy(User user, Event event) {
+    if (schedulingStrategy == null) {
+      throw new IllegalStateException("Scheduling strategy is not set.");
+    }
+    schedulingStrategy.scheduleEvent(event, user, this);
+  }
+
 }

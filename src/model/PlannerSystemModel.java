@@ -133,4 +133,14 @@ public interface PlannerSystemModel extends ReadOnlyModel {
    * @param userId the id of the user to select and modify
    */
   void selectAndModifyUserSchedule(String userId);
+
+  /**
+   * Create an event based on the scheduling strategy.
+   * Since there are multiple strategies.
+   * This method will create an event based on the strategy.
+   *
+   * @param user  The user for whom the event is created
+   * @param event The event to be created
+   */
+  void createEventBasedOnStrategy(User user, Event event);
 }

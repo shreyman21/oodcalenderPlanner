@@ -6,17 +6,17 @@ import model.Event;
 import model.PlannerSystem;
 import model.User;
 import view.MainSystemFrame;
-import view.PlannerView;
 import view.PlannerViewListener;
 
+/**
+ * This class represents the PlannerController.
+ * This class is used to control the planner system.
+ * It listens for events from the view and updates the model accordingly.
+ */
 public class PlannerController {
-  private final PlannerSystem model;
   private final MainSystemFrame view;
 
-
-
   public PlannerController(PlannerSystem model, MainSystemFrame view) {
-    this.model = model;
     this.view = view;
     this.view.setListener(new PlannerViewListener() {
       @Override

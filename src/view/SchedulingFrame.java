@@ -32,7 +32,6 @@ public class SchedulingFrame extends JFrame {
         this.model = new PlannerSystem();
         this.strat = new AnytimeSchedulingStrategy();
     }
-
     private void createUI() {
         setTitle("Schedule Event");
         setSize(500, 500);

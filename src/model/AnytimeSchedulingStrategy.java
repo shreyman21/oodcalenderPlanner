@@ -3,11 +3,13 @@ package model;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
+/**
+ * This class represents the AnytimeSchedulingStrategy.
+ * This scheduling strategy will find the first possible time.
+ * Allows all invitees and the host to be present
+ */
 public class AnytimeSchedulingStrategy implements SchedulingStrategy {
 
-  // "Any time": This scheduling strategy will find the first possible time
-  // (starting Sunday at 00:00) that allows
-  // all invitees and the host to be present and return an event with that block of time.
   @Override
   public void scheduleEvent(Event event, User host, PlannerSystem plannerSystem) {
     Schedule hostSchedule = host.getSchedule();

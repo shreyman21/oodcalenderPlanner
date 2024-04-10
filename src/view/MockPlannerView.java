@@ -9,7 +9,6 @@ public class MockPlannerView implements IPlannerView {
   private List<Event> displayedEvents = new ArrayList<>();
   private boolean visible;
 
-
   @Override
   public void updateSchedule(List<Event> events) {
   displayedEvents = events;
@@ -22,11 +21,10 @@ public class MockPlannerView implements IPlannerView {
 
   @Override
   public void showError(String message) {
-
   }
 
   @Override
   public void setVisible(boolean visible) {
-
+    this.visible = visible;
   }
 }

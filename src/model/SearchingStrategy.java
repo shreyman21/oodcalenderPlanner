@@ -2,6 +2,10 @@ package model;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class represents the SearchingStrategy.
+ * This class is used to search for the first possible time for an event to be scheduled.
+ */
 public class SearchingStrategy {
   static void search(Event event, PlannerSystem plannerSystem, Schedule userSchedule, LocalDateTime startSearch, LocalDateTime endSearch) {
     while (startSearch.isBefore(endSearch)) {
