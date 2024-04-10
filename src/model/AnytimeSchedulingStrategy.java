@@ -17,7 +17,5 @@ public class AnytimeSchedulingStrategy implements SchedulingStrategy {
             .withHour(23).withMinute(59);
 
     WorkHoursSchedulingStrategy.search(event, plannerSystem, hostSchedule, startSearch, endSearch);
-
-    //TODO: Handle case where no suitable time was found
   }
 }

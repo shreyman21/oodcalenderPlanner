@@ -4,6 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+
+
+import model.AnytimeSchedulingStrategy;
+import model.Event;
+import model.PlannerSystem;
+import model.User;
 
 public class SchedulingFrame extends JFrame {
     private JTextField eventNameField;
@@ -13,8 +23,14 @@ public class SchedulingFrame extends JFrame {
     private JComboBox<String> userComboBox;
     private JButton scheduleButton;
 
+    private PlannerSystem model;
+
+    private AnytimeSchedulingStrategy strat;
+
     public SchedulingFrame() {
         createUI();
+        this.model = new PlannerSystem();
+        this.strat = new AnytimeSchedulingStrategy();
     }
 
     private void createUI() {
@@ -31,7 +47,7 @@ public class SchedulingFrame extends JFrame {
         locationField = new JTextField();
         onlineCheckBox = new JCheckBox("Not online");
         durationField = new JTextField();
-        userComboBox = new JComboBox<>(new String[]{"Prof. Lucia", "Chat", "Student Anon"});
+        userComboBox = new JComboBox<>(new String[]{"Prof. Lucia", "Jane", "Student Anon"});
         scheduleButton = new JButton("Schedule event");
 
         mainPanel.add(new JLabel("Event name:"));
@@ -48,11 +64,22 @@ public class SchedulingFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String eventName = eventNameField.getText();
+                String location = locationField.getText();
+                boolean online = onlineCheckBox.isSelected();
+                int duration = Integer.parseInt(durationField.getText());
+                String selectedUserName = (String) userComboBox.getSelectedItem();
+                User user = model.getUserByName(selectedUserName);
 
-                if (eventName.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Event name cannot be empty");
-                    return;
-                }
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime nextOrSameThursday = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.THURSDAY));
+                LocalDateTime startSearch = nextOrSameThursday.withHour(0).withMinute(0);
+                LocalDateTime endSearch = startSearch.plusDays(6);
+                Event event = new Event(eventName, startSearch, endSearch, location, online,new ArrayList<>());
+
+                // Anytime Scheduling strategy
+                strat.scheduleEvent(event, user, model);
+                JOptionPane.showMessageDialog(SchedulingFrame.this,
+                        "Event scheduled for " + event.getStart());
             }
         });
 
