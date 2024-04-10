@@ -255,7 +255,10 @@ public class MainSystemFrame extends JFrame implements IPlannerView {
     scheduleEventButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        // Schedule event logic
+        // opens the SchedulingFrame
+        SchedulingFrame schedulingFrame = new SchedulingFrame();
+        schedulingFrame.setVisible(true);
+
       }
     });
   }

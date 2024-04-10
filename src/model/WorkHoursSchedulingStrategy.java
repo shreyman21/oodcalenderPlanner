@@ -17,6 +17,10 @@ public class WorkHoursSchedulingStrategy implements SchedulingStrategy {
     LocalDateTime endSearch = startSearch.plusDays(4)
             .withHour(17).withMinute(0);
 
+    search(event, plannerSystem, userSchedule, startSearch, endSearch);
+  }
+
+  static void search(Event event, PlannerSystem plannerSystem, Schedule userSchedule, LocalDateTime startSearch, LocalDateTime endSearch) {
     while (startSearch.isBefore(endSearch)) {
       LocalDateTime endSearchTime = startSearch.plusMinutes(event.getDuration());
       if (userSchedule.isAvailable(startSearch, endSearchTime)) {
@@ -29,20 +33,16 @@ public class WorkHoursSchedulingStrategy implements SchedulingStrategy {
           }
         }
         if (allInviteesAvailable) {
-          event.setTime(startSearch); // Set the event time
-          userSchedule.addEvent(event); // Add event to host's schedule
-          // Assuming we might need to add the event to each invitee's schedule as well
+          event.setTime(startSearch);
+          userSchedule.addEvent(event);
           for (String inviteeId : event.getInvitees()) {
             User invitee = plannerSystem.getUser(inviteeId);
             invitee.getSchedule().addEvent(event);
           }
-          return; // Event successfully scheduled
+          return;
         }
       }
-      // Increment the search start by 30 minutes (or any other increment you see fit)
       startSearch = startSearch.plusMinutes(30);
-
-      // Break the loop if the end of search time exceeds the week's end
       if (!startSearch.isBefore(endSearch)) {
         break;
       }

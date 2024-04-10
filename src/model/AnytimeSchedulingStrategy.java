@@ -16,36 +16,7 @@ public class AnytimeSchedulingStrategy implements SchedulingStrategy {
     LocalDateTime endSearch = startSearch.plusDays(6)
             .withHour(23).withMinute(59);
 
-    while (startSearch.isBefore(endSearch)) {
-      LocalDateTime endSearchTime = startSearch.plusMinutes(event.getDuration());
-      if (hostSchedule.isAvailable(startSearch, endSearchTime)) {
-        boolean allInviteesAvailable = true;
-        for (String inviteeId : event.getInvitees()) {
-          User invitee = plannerSystem.getUser(inviteeId);
-          if (invitee == null || !invitee.getSchedule().isAvailable(startSearch, endSearchTime)) {
-            allInviteesAvailable = false;
-            break;
-          }
-        }
-        if (allInviteesAvailable) {
-          event.setTime(startSearch); // Set the event time
-          hostSchedule.addEvent(event); // Add event to host's schedule
-          // Assuming we might need to add the event to each invitee's schedule as well
-          for (String inviteeId : event.getInvitees()) {
-            User invitee = plannerSystem.getUser(inviteeId);
-            invitee.getSchedule().addEvent(event);
-          }
-          return; // Event successfully scheduled
-        }
-      }
-      // Increment the search start by 30 minutes (or any other increment you see fit)
-      startSearch = startSearch.plusMinutes(30);
-
-      // Break the loop if the end of search time exceeds the week's end
-      if (!startSearch.isBefore(endSearch)) {
-        break;
-      }
-    }
+    WorkHoursSchedulingStrategy.search(event, plannerSystem, hostSchedule, startSearch, endSearch);
 
     //TODO: Handle case where no suitable time was found
   }
