@@ -11,8 +11,11 @@ import java.awt.Stroke;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -57,6 +60,13 @@ public class MainSystemFrame extends JFrame implements IPlannerView {
     initializeUserComboBox();
     setupFrameLayout();
     configureFrame();
+    this.addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentResized(ComponentEvent e) {
+        schedulePanel.repaint();
+      }
+    });
+
   }
 
   /**
@@ -71,6 +81,8 @@ public class MainSystemFrame extends JFrame implements IPlannerView {
         new MainSystemFrame(new PlannerSystem());
       }
     });
+
+
   }
 
   /**
@@ -110,6 +122,8 @@ public class MainSystemFrame extends JFrame implements IPlannerView {
     });
   }
 
+
+
   private void initializeMenu() {
     JMenuBar menuBar = new JMenuBar();
     JMenu fileMenu = new JMenu("File");
@@ -132,8 +146,8 @@ public class MainSystemFrame extends JFrame implements IPlannerView {
       protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawScheduleGrid(g);
+        Graphics2D g2d = (Graphics2D) g;
         if (currentEvents != null && !currentEvents.isEmpty()) {
-          Graphics2D g2d = (Graphics2D) g;
           for (Event event : currentEvents) {
             System.out.println("Drawing event: " + event.getName());
             LocalDateTime startTime = event.getStartTime();
@@ -155,26 +169,6 @@ public class MainSystemFrame extends JFrame implements IPlannerView {
       }
 
     };
-
-    addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        super.mouseClicked(e);
-        int dayWidth = schedulePanel.getWidth() / 7;
-        int hourHeight = schedulePanel.getHeight() / 24;
-        int dayIndex = e.getX() / dayWidth;
-        int hourIndex = e.getY() / hourHeight;
-        DayOfWeek day = DayOfWeek.of((dayIndex + 1) % 7 + 1);
-        LocalTime time = LocalTime.of(hourIndex, 0);
-        LocalDate date = LocalDate.now().with(TemporalAdjusters.nextOrSame(day));
-        LocalDateTime startDateTime = LocalDateTime.of(date, time);
-        EventFrame eventFrame = new EventFrame(readOnlyModel);
-        eventFrame.setStartTime(startDateTime);
-        eventFrame.setVisible(true);
-      }
-    }
-    );
-
 
     schedulePanel.setPreferredSize(new Dimension(800, 600));
 
@@ -350,6 +344,7 @@ public class MainSystemFrame extends JFrame implements IPlannerView {
       System.out.println("Save to directory: " + selectedDirectory.getAbsolutePath());
     }
   }
+
 
   @Override
   public void updateSchedule(List<Event> events) {

@@ -39,6 +39,7 @@ import javax.xml.transform.stream.StreamResult;
 public class PlannerSystem implements PlannerSystemModel {
 
   private Map<String, User> users = new HashMap<>();
+  private SchedulingStrategy schedulingStrategy;
 
   /**
    * Constructor for the PlannerSystem class.
@@ -60,6 +61,9 @@ public class PlannerSystem implements PlannerSystemModel {
     this.addUser(user2);
   }
 
+  public void setSchedulingStrategy(SchedulingStrategy schedulingStrategy) {
+    this.schedulingStrategy = schedulingStrategy;
+  }
 
   @Override
   public boolean uploadSchedule(String xmlFilePath, User user) {

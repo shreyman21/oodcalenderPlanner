@@ -50,6 +50,7 @@ public class SchedulingFrame extends JFrame {
         userComboBox = new JComboBox<>(new String[]{"Prof. Lucia", "Jane", "Student Anon"});
         scheduleButton = new JButton("Schedule event");
 
+
         mainPanel.add(new JLabel("Event name:"));
         mainPanel.add(eventNameField);
         mainPanel.add(new JLabel("Location:"));

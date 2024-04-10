@@ -15,7 +15,8 @@ public class AnytimeSchedulingStrategy implements SchedulingStrategy {
             .withHour(0).withMinute(0);
     LocalDateTime endSearch = startSearch.plusDays(6)
             .withHour(23).withMinute(59);
+    SearchingStrategy.search(event, plannerSystem, hostSchedule, startSearch, endSearch);
 
-    WorkHoursSchedulingStrategy.search(event, plannerSystem, hostSchedule, startSearch, endSearch);
+
   }
 }

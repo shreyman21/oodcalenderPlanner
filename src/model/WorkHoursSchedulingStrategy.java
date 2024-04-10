@@ -17,35 +17,8 @@ public class WorkHoursSchedulingStrategy implements SchedulingStrategy {
     LocalDateTime endSearch = startSearch.plusDays(4)
             .withHour(17).withMinute(0);
 
-    search(event, plannerSystem, userSchedule, startSearch, endSearch);
+    SearchingStrategy.search(event, plannerSystem, userSchedule, startSearch, endSearch);
   }
 
-  static void search(Event event, PlannerSystem plannerSystem, Schedule userSchedule, LocalDateTime startSearch, LocalDateTime endSearch) {
-    while (startSearch.isBefore(endSearch)) {
-      LocalDateTime endSearchTime = startSearch.plusMinutes(event.getDuration());
-      if (userSchedule.isAvailable(startSearch, endSearchTime)) {
-        boolean allInviteesAvailable = true;
-        for (String inviteeId : event.getInvitees()) {
-          User invitee = plannerSystem.getUser(inviteeId);
-          if (invitee == null || !invitee.getSchedule().isAvailable(startSearch, endSearchTime)) {
-            allInviteesAvailable = false;
-            break;
-          }
-        }
-        if (allInviteesAvailable) {
-          event.setTime(startSearch);
-          userSchedule.addEvent(event);
-          for (String inviteeId : event.getInvitees()) {
-            User invitee = plannerSystem.getUser(inviteeId);
-            invitee.getSchedule().addEvent(event);
-          }
-          return;
-        }
-      }
-      startSearch = startSearch.plusMinutes(30);
-      if (!startSearch.isBefore(endSearch)) {
-        break;
-      }
-    }
-  }
+
 }
