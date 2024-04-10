@@ -1,9 +1,10 @@
 package view;
 
-
 import java.util.List;
 import model.Event;
-
+/**
+ * The view for the planner.
+ */
 public class PlannerView {
 
   private PlannerViewListener listener;

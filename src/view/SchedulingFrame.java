@@ -66,7 +66,6 @@ public class SchedulingFrame extends JFrame {
                 String eventName = eventNameField.getText();
                 String location = locationField.getText();
                 boolean online = onlineCheckBox.isSelected();
-                int duration = Integer.parseInt(durationField.getText());
                 String selectedUserName = (String) userComboBox.getSelectedItem();
                 User user = model.getUserByName(selectedUserName);
 

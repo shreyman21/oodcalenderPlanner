@@ -36,7 +36,7 @@ import model.User;
  * This frame displays the schedule for each user in a graphical view.
  * Allows the user to select a user, create events, and schedule events.
  */
-public class MainSystemFrame extends JFrame implements IPlannerView {
+public class MainSystemFrame extends JFrame implements IPlannerView, PlannerViewListener {
   private static JPanel schedulePanel;
   private JButton createEventButton;
   private JButton scheduleEventButton;
@@ -359,5 +359,15 @@ public class MainSystemFrame extends JFrame implements IPlannerView {
   @Override
   public void showError(String message) {
     JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+  }
+
+  @Override
+  public void onEventCreate(Event event, String userId) {
+    viewListener.onEventCreate(event, userId);
+  }
+
+  @Override
+  public void onScheduleLoad(String filePath, User user) {
+    viewListener.onScheduleLoad(filePath, user);
   }
 }

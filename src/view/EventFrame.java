@@ -39,7 +39,7 @@ import model.User;
  * The user can create, modify, and remove events using this frame.
  * This frame is used by the user to interact with the system.
  */
-public class EventFrame extends JFrame {
+public class EventFrame extends JFrame implements IEventView {
   private JTextField eventNameField;
   private JTextField locationField;
   private JCheckBox isOnlineCheckBox;
@@ -202,16 +202,16 @@ public class EventFrame extends JFrame {
       }
     });
   }
-
-  private void initializeUserComboBox() {
+  @Override
+  public void initializeUserComboBox() {
     DefaultComboBoxModel<String> userModel = new DefaultComboBoxModel<>();
     for (User user : readOnlyModel.getUsers()) {
       userModel.addElement(user.getName());
     }
     userComboBox = new JComboBox<>(userModel);
   }
-
-  private JPanel createLabelAndComponent(String labelText, JComponent component) {
+  @Override
+  public JPanel createLabelAndComponent(String labelText, JComponent component) {
     JLabel label = new JLabel(labelText);
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
@@ -220,22 +220,13 @@ public class EventFrame extends JFrame {
     return panel;
   }
 
-  /**
-   * Set the start time of the event.
-   *
-   * @param startTime the start time of the event
-   */
+  @Override
   public void setStartTime(LocalDateTime startTime) {
     startDayComboBox.setSelectedItem(startTime.getDayOfWeek().toString());
     startTimeField.setText(startTime.toLocalTime().toString());
   }
 
-  /**
-   * Populate the event details in the frame.
-   * This method is called when the user selects an event from the list.
-   *
-   * @param event the event to populate the details for
-   */
+  @Override
   public void populateEventDetails(Event event) {
     eventNameField.setText(event.getName());
     locationField.setText(event.getLocation());

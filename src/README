@@ -108,3 +108,74 @@ the system.
 - IScheduleView
 This interface is intended to define the necessary parts of the view component that displays
 schedules.
+
+
+Changes to Part 3:
+We realized that there needed to be an interface for the strategies so we added an interface and
+created the AnytimeSchedulingStrategy and WorkHoursSchedulingStrategy classes. This is to help
+separate and organize these strategies to be called on and use later on more easily and for easier
+code readability. We also mad a method called createEventBasedOnStrategy in the planner system and
+the interface to more easily create events for specific strategies. Finally, we added a parameter to
+the PlannerSystem class which was the scheduling strategy so that a strategy could be associated
+with the schedule. We added two new methods to accompany this as well:
+
+New Methods:
+- setSchedulingStrategy:
+A method that allows the dynamic setting of a scheduling strategy according to user choices
+
+- scheduleEventForUser:
+A method that schedules an event for a user and utilizes the currently set scheduling strategy
+
+
+New Interfaces:
+- IPlannerView:
+This interface is a general contract for the planner's view component and gives them a way to update
+the schedule display and set listeners for user actions.
+
+- SchedulingStrategy:
+Defines a strategy pattern that allows the implementation of different scheduling algorithms that
+can be specifically chosen and applied.
+
+- IScheduleView:
+Intended interface for views that deal with displaying schedules and distinguishing them from other
+types of views within the application
+
+- PlannerViewListener:
+An interface to define callbacks for user actions captured by the view components,
+which are then handled by the PlannerController.
+
+
+New Classes:
+- AnytimeSchedulingStrategy:
+Implementation of the SchedulingStrategy interface. A specific logic to schedule events at any
+available time
+
+- WorkHoursSchedulingStrategy:
+Implementation of the SchedulingStrategy interface. A specific logic to schedule events within
+standard work hours.
+
+- SearchingStrategy:
+Class that is utilized within the scheduling strategies to find suitable time slots for events based
+on the criteria. It has the logic that iterates through the possible times and checks availability.
+
+- Planner Controller:
+Acts as a controller for the planner application. It manages the flow of data between the Model and
+View by handling user inputs and responding to Model updates. It ensures the UI reflects the current
+state of the application.
+
+- MockPlannerView:
+A mock implementation of the IPlannerView interface used for testing purposes to simulate the view's
+behavior without requiring the full graphical interface.
+
+- SchedulingFrame:
+A JFrame subclass that provides a GUI for scheduling events. It works with PlannerSystem to assign
+scheduling strategies and update event details.
+
+- MainSystemView:
+This is the primary view of the the graphical interface for the planner system.
+
+- PlannerViewTextual:
+This is a textual representation of the planner dates.
+
+
+Extra Credit: LenientSchedulingStrategy class, and then run it on the PlannerRunner
