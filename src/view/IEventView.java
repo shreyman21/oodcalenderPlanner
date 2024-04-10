@@ -16,14 +16,14 @@ public interface IEventView {
    *
    * @param event the event to populate the details for
    */
-   void populateEventDetails(Event event);
+  void populateEventDetails(Event event);
 
   /**
    * Set the start time of the event.
    *
    * @param startTime the start time of the event
    */
-   void setStartTime(LocalDateTime startTime);
+  void setStartTime(LocalDateTime startTime);
 
   /**
    * Create a label and component.
@@ -37,6 +37,6 @@ public interface IEventView {
   /**
    * Initialize the user combo box choosing the user from the list.
    */
-   void initializeUserComboBox();
+  void initializeUserComboBox();
 
 }

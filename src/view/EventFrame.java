@@ -13,20 +13,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JList;
+import javax.swing.*;
 
 import model.Event;
 import model.PlannerSystem;
@@ -202,6 +189,7 @@ public class EventFrame extends JFrame implements IEventView {
       }
     });
   }
+
   @Override
   public void initializeUserComboBox() {
     DefaultComboBoxModel<String> userModel = new DefaultComboBoxModel<>();
@@ -210,6 +198,7 @@ public class EventFrame extends JFrame implements IEventView {
     }
     userComboBox = new JComboBox<>(userModel);
   }
+
   @Override
   public JPanel createLabelAndComponent(String labelText, JComponent component) {
     JLabel label = new JLabel(labelText);

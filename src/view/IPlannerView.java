@@ -4,6 +4,11 @@ import java.util.List;
 
 import model.Event;
 
+/**
+ * This interface represents the view for the planner system.
+ * The view is responsible for displaying the schedule and handling user input.
+ * The controller interacts with the view through this interface.
+ */
 public interface IPlannerView {
   /**
    * Displays or updates the schedule on the view.

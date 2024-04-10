@@ -1,30 +1,51 @@
 package view;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import model.Event;
 
+/**
+ * This class represents a mock planner view for testing purposes.
+ * It implements the IPlannerView interface.
+ */
 public class MockPlannerView implements IPlannerView {
-  private PlannerViewListener listener;
-  private List<Event> displayedEvents = new ArrayList<>();
-  private boolean visible;
+  private List<Event> events;
+  private boolean errorShown;
 
   @Override
   public void updateSchedule(List<Event> events) {
-  displayedEvents = events;
+    System.out.println("Events:");
+    for (Event event : events) {
+      System.out.println(event);
+    }
   }
 
   @Override
   public void setListener(PlannerViewListener listener) {
-    this.listener = listener;
+    System.out.println("Listener set");
   }
 
   @Override
   public void showError(String message) {
+    errorShown = true;
+    System.out.println(message);
   }
 
   @Override
   public void setVisible(boolean visible) {
-    this.visible = visible;
+    System.out.println("Visible: " + visible);
+  }
+
+
+  public void addEvent(Event event) {
+    events.add(event);
+  }
+
+  public List<Event> getEvents() {
+    return events;
+  }
+
+  public boolean isErrorShown() {
+    return errorShown;
   }
 }

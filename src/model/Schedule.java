@@ -61,7 +61,13 @@ public class Schedule {
     return false;
   }
 
-
+  /**
+   * Check if the schedule is available for a given time range.
+   *
+   * @param startSearch the start time to search for
+   * @param endSearchTime the end time to search for
+   * @return
+   */
   public boolean isAvailable(LocalDateTime startSearch, LocalDateTime endSearchTime) {
     for (Event e : events) {
       if (e.getStartTime().isBefore(endSearchTime) && e.getEndTime().isAfter(startSearch)) {
