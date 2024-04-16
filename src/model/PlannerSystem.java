@@ -36,10 +36,10 @@ import javax.xml.transform.stream.StreamResult;
  * For all events in a user's schedule, the start time is before the end time.
  * No two events in a user's schedule overlap in time.
  */
-public class PlannerSystem implements PlannerSystemModel {
+public class PlannerSystem implements IPlannerSystemModel {
 
   private Map<String, User> users = new HashMap<>();
-  private SchedulingStrategy schedulingStrategy;
+  private ISchedulingStrategy schedulingStrategy;
 
   /**
    * Constructor for the PlannerSystem class.
@@ -61,7 +61,7 @@ public class PlannerSystem implements PlannerSystemModel {
     this.addUser(user2);
   }
 
-  public void setSchedulingStrategy(SchedulingStrategy schedulingStrategy) {
+  public void setSchedulingStrategy(ISchedulingStrategy schedulingStrategy) {
     this.schedulingStrategy = schedulingStrategy;
   }
 

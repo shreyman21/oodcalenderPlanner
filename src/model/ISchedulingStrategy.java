@@ -6,7 +6,7 @@ package model;
  * Different scheduling strategies will implement this interface.
  * Based on the criteria of the scheduling strategy, the event will be scheduled.
  */
-public interface SchedulingStrategy {
+public interface ISchedulingStrategy {
   void scheduleEvent(Event event, User user,  PlannerSystem plannerSystem);
 }
 

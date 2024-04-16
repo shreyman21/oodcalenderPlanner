@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * This scheduling strategy will find the first possible time.
  * The strategy must find a block between Monday and Friday from 0900 to 1700.
  */
-public class WorkHoursSchedulingStrategy implements SchedulingStrategy {
+public class WorkHoursSchedulingStrategy implements ISchedulingStrategy {
 
   @Override
   public void scheduleEvent(Event event, User user, PlannerSystem plannerSystem) {

@@ -8,7 +8,7 @@ import model.User;
  * The interface for the planner view.
  * This is the view either in text or graphical form.
  */
-public interface PlannerViewTextual {
+public interface IPlannerViewTextual {
   /**
    * Display each user's schedule with the correct formatting.
    * Either text or graphical.

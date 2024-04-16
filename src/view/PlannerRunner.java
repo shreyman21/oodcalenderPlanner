@@ -10,7 +10,7 @@ import model.AnytimeSchedulingStrategy;
 import model.Event;
 import model.LenientSchedulingStrategy;
 import model.PlannerSystem;
-import model.SchedulingStrategy;
+import model.ISchedulingStrategy;
 import model.User;
 import model.WorkHoursSchedulingStrategy;
 
@@ -30,7 +30,7 @@ public class PlannerRunner {
 
     // Check for command-line arguments and set the scheduling strategy accordingly
     if (args.length > 0) {
-      SchedulingStrategy strategy;
+      ISchedulingStrategy strategy;
       switch (args[0].toLowerCase()) {
         case "anytime":
           strategy = new AnytimeSchedulingStrategy();
@@ -48,7 +48,7 @@ public class PlannerRunner {
       model.setSchedulingStrategy(strategy);
     } else {
       System.out.println("No scheduling strategy specified. Defaulting to 'anytime'.");
-      SchedulingStrategy strategy = new AnytimeSchedulingStrategy();
+      ISchedulingStrategy strategy = new AnytimeSchedulingStrategy();
       model.setSchedulingStrategy(strategy);
     }
 

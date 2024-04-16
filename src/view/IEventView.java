@@ -2,7 +2,8 @@ package view;
 
 import java.time.LocalDateTime;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import model.Event;
 

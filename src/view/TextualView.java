@@ -11,7 +11,7 @@ import model.User;
  * This view displays the schedule for each user in text format.
  * It implements the plannerView interface.
  */
-public class TextualView implements PlannerViewTextual {
+public class TextualView implements IPlannerViewTextual {
   /**
    * Displays each users' schedule with the proper formatting in a textual view.
    *

@@ -7,7 +7,7 @@ import java.util.List;
 import model.Event;
 import model.User;
 import view.MockPlannerView;
-import view.PlannerViewListener;
+import view.IPlannerViewListener;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,12 +19,12 @@ import static org.junit.Assert.assertTrue;
 public class PlannerViewTest {
 
   private MockPlannerView mockPlannerView;
-  private PlannerViewListener listener;
+  private IPlannerViewListener listener;
 
   @Before
   public void setUp() {
     mockPlannerView = new MockPlannerView();
-    listener = new PlannerViewListener() {
+    listener = new IPlannerViewListener() {
       @Override
       public void onEventCreate(Event event, String userId) {
         mockPlannerView.addEvent(event);

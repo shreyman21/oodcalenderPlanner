@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * This scheduling strategy will find the first possible time.
  * Allows all invitees and the host to be present
  */
-public class AnytimeSchedulingStrategy implements SchedulingStrategy {
+public class AnytimeSchedulingStrategy implements ISchedulingStrategy {
 
   @Override
   public void scheduleEvent(Event event, User host, PlannerSystem plannerSystem) {

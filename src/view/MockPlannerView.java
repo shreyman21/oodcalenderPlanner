@@ -21,7 +21,7 @@ public class MockPlannerView implements IPlannerView {
   }
 
   @Override
-  public void setListener(PlannerViewListener listener) {
+  public void setListener(IPlannerViewListener listener) {
     System.out.println("Listener set");
   }
 

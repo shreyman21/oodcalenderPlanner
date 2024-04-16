@@ -9,7 +9,7 @@ import java.util.List;
  * An event has a name, start time, end time, location, and participants, and invitees.
  * The start and end times are in LocalDateTime format.
  */
-public class Event {
+public class Event implements IEvent {
   private String name;
   private LocalDateTime startTime;
   private LocalDateTime endTime;
@@ -38,76 +38,82 @@ public class Event {
     this.isOnline = isOnline;
     this.invitees = invitees;
   }
-
+  @Override
   public boolean checkForConflict(Event otherEvent) {
     return (this.startTime.isBefore(otherEvent.getEndTime())
             && this.endTime.isAfter(otherEvent.getStartTime()));
   }
 
-  // Getter and setter methods
+
+  @Override
   public String getName() {
     return name;
   }
-
+  @Override
   public void setName(String name) {
     this.name = name;
   }
-
+  @Override
   public LocalDateTime getStartTime() {
     return startTime;
   }
-
+  @Override
   public void setStartTime(LocalDateTime startTime) {
     this.startTime = startTime;
   }
-
+  @Override
   public LocalDateTime getEndTime() {
     return endTime;
   }
-
+  @Override
   public void setEndTime(LocalDateTime endTime) {
     this.endTime = endTime;
   }
-
+  @Override
   public String getLocation() {
     return location;
   }
-
+  @Override
   public void setLocation(String location) {
     this.location = location;
   }
-
+  @Override
   public boolean isOnline() {
     return isOnline;
   }
-
+  @Override
   public void setOnline(boolean online) {
     isOnline = online;
   }
-
+  @Override
   public List<String> getInvitees() {
     return invitees;
   }
 
+  @Override
+  public void setInvitees(List<String> invitees) {
+    this.invitees = invitees;
+  }
+  @Override
   public boolean conflictsWith(Event event) {
     return this.startTime.isBefore(event.getEndTime())
             && this.endTime.isAfter(event.getStartTime());
   }
 
-
+  @Override
   public LocalDateTime getStart() {
     return startTime;
   }
-
+  @Override
   public LocalDateTime getEnd() {
     return endTime;
   }
-
+  @Override
   public long getDuration() {
     Duration duration = Duration.between(startTime, endTime);
     return duration.toMinutes();
   }
-
+  @Override
   public void setTime(LocalDateTime startSearch) {
     this.startTime = startSearch;
     this.endTime = startSearch.plusMinutes(getDuration());

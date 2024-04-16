@@ -37,7 +37,7 @@ import javax.swing.SwingUtilities;
 
 import model.Event;
 import model.PlannerSystem;
-import model.ReadOnlyModel;
+import model.IReadOnlyModel;
 import model.User;
 
 
@@ -46,22 +46,22 @@ import model.User;
  * This frame displays the schedule for each user in a graphical view.
  * Allows the user to select a user, create events, and schedule events.
  */
-public class MainSystemFrame extends JFrame implements IPlannerView, PlannerViewListener {
+public class MainSystemFrame extends JFrame implements IPlannerView, IPlannerViewListener {
   private static JPanel schedulePanel;
   private JButton createEventButton;
   private JButton scheduleEventButton;
   private JComboBox<String> userComboBox;
-  private ReadOnlyModel readOnlyModel;
+  private IReadOnlyModel readOnlyModel;
 
   private List<Event> currentEvents;
-  private PlannerViewListener viewListener;
+  private IPlannerViewListener viewListener;
 
   /**
    * Constructs a MainSystemFrame with the given model.
    *
    * @param model the model to use
    */
-  public MainSystemFrame(ReadOnlyModel model) {
+  public MainSystemFrame(IReadOnlyModel model) {
     this.readOnlyModel = model;
     initializeMenu();
     initializeSchedulePanel();
@@ -362,7 +362,7 @@ public class MainSystemFrame extends JFrame implements IPlannerView, PlannerView
   }
 
   @Override
-  public void setListener(PlannerViewListener listener) {
+  public void setListener(IPlannerViewListener listener) {
     this.viewListener = listener;
   }
 

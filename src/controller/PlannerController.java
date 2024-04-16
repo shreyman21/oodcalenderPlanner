@@ -1,26 +1,32 @@
 package controller;
 
 
-
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import model.Event;
 import model.PlannerSystem;
 import model.User;
 import view.MainSystemFrame;
-import view.PlannerViewListener;
+import view.IPlannerViewListener;
 
 /**
  * This class represents the PlannerController.
  * This class is used to control the planner system.
  * It listens for events from the view and updates the model accordingly.
  */
-public class PlannerController {
+public class PlannerController implements IPlannerController {
   private final MainSystemFrame view;
 
+  /**
+   * Constructs a PlannerController with the given model and view.
+   * This controller listens for events from the view and updates the model accordingly.
+   *
+   * @param model the planner system model
+   * @param view  the main system frame view
+   */
   public PlannerController(PlannerSystem model, MainSystemFrame view) {
     this.view = view;
-    this.view.setListener(new PlannerViewListener() {
+    this.view.setListener(new IPlannerViewListener() {
       @Override
       public void onEventCreate(Event event, String userId) {
         model.addEventToUserSchedule(userId, event);
@@ -39,6 +45,7 @@ public class PlannerController {
     });
   }
 
+  @Override
   public void start() {
     view.setVisible(true);
   }

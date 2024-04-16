@@ -13,11 +13,23 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JComponent;
 
 import model.Event;
 import model.PlannerSystem;
-import model.ReadOnlyModel;
+import model.IReadOnlyModel;
 import model.User;
 
 /**
@@ -35,7 +47,7 @@ public class EventFrame extends JFrame implements IEventView {
   private JTextField startTimeField;
   private JTextField endTimeField;
   private JList<String> userList;
-  private ReadOnlyModel readOnlyModel;
+  private IReadOnlyModel readOnlyModel;
   private JComboBox<String> userComboBox;
 
   /**
@@ -44,7 +56,7 @@ public class EventFrame extends JFrame implements IEventView {
    *
    * @param model the model to use
    */
-  public EventFrame(ReadOnlyModel model) {
+  public EventFrame(IReadOnlyModel model) {
     this.readOnlyModel = model;
 
     eventNameField = new JTextField();
@@ -184,7 +196,7 @@ public class EventFrame extends JFrame implements IEventView {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
-        ReadOnlyModel model = new PlannerSystem();
+        IReadOnlyModel model = new PlannerSystem();
         new EventFrame(model);
       }
     });

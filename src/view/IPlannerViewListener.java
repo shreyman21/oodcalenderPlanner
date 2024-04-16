@@ -7,7 +7,7 @@ import model.User;
  * This interface represents the listener for the planner view.
  * The controller implements this interface to handle user actions.
  */
-public interface PlannerViewListener {
+public interface IPlannerViewListener {
   /**
    * Called when the user creates a new event.
    *

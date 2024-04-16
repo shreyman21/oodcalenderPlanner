@@ -7,7 +7,7 @@ import java.util.List;
  * Each user has a unique ID, a name, and a schedule.
  * We can also have multiple users with multiple schedules.
  */
-public class User {
+public class User implements IUser {
   private String id;
   private String name;
   private Schedule schedule;
@@ -24,25 +24,25 @@ public class User {
     this.schedule = new Schedule();
   }
 
+  @Override
   public String getId() {
     return id;
   }
 
+  @Override
   public String getName() {
     return name;
   }
 
+  @Override
   public Schedule getSchedule() {
     return schedule;
   }
 
-  //get events
+  @Override
   public List<Event> getEvents() {
     return schedule.getEvents();
   }
-
-
-
 
 
 }

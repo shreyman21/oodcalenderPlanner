@@ -21,7 +21,7 @@ public interface IPlannerView {
    * The controller implements the listener interface and registers itself with the view.
    * @param listener The listener for user actions.
    */
-  void setListener(PlannerViewListener listener);
+  void setListener(IPlannerViewListener listener);
 
   /**
    * Displays an error message to the user.

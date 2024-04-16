@@ -11,14 +11,14 @@ import model.Event;
  */
 public class PlannerView {
 
-  private PlannerViewListener listener;
+  private IPlannerViewListener listener;
 
   /**
    * Sets the listener for the view.
    *
    * @param listener the listener to set
    */
-  public void setListener(PlannerViewListener listener) {
+  public void setListener(IPlannerViewListener listener) {
     this.listener = listener;
   }
 
@@ -45,7 +45,9 @@ public class PlannerView {
       while (true) {
         System.out.println("Enter command (create/load/exit):");
         String command = scanner.nextLine();
-        if ("exit".equalsIgnoreCase(command)) break;
+        if ("exit".equalsIgnoreCase(command)) {
+          break;
+        }
         if ("create".equalsIgnoreCase(command) && listener != null) {
           // give random event
           LocalDateTime now = LocalDateTime.now();

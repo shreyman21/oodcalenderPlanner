@@ -7,7 +7,7 @@ import java.util.List;
  * This interface represents the read-only model for the planner system.
  * This model doesn't change the state of the system, but it allows the user to see the events.
  */
-public interface ReadOnlyModel {
+public interface IReadOnlyModel {
   /**
    * Get a user from the system.
    *

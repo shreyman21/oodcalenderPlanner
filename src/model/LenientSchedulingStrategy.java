@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * The strategy must find a block between Monday and Friday from 0900 to 1700.
  * Allows all invitees and the host to be present
  */
-public class LenientSchedulingStrategy implements SchedulingStrategy {
+public class LenientSchedulingStrategy implements ISchedulingStrategy {
   @Override
   public void scheduleEvent(Event event, User user, PlannerSystem plannerSystem) {
     Schedule userSchedule = user.getSchedule();
