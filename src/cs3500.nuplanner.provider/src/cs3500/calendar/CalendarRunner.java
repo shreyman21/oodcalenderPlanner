@@ -7,6 +7,7 @@ import cs3500.nuplanner.provider.src.cs3500.calendar.controller.hw07.CalendarGUI
 import cs3500.nuplanner.provider.src.cs3500.calendar.controller.hw07.CalendarGUIControllerWorkdays;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.Calendar;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.CalendarModel;
+import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.EventModel;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.Schedule;
 import cs3500.nuplanner.provider.src.cs3500.calendar.view.hw06.CalendarGUIView;
 import cs3500.nuplanner.provider.src.cs3500.calendar.view.hw06.CalendarGUIViewImpl;
@@ -40,6 +41,7 @@ public class CalendarRunner {
       default:
         throw new IllegalStateException("Unexpected value: " + args[0].toLowerCase());
     }
+
     controller.launch(model);
     controller.showView();
   }

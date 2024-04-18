@@ -1,5 +1,3 @@
-package view;
-
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
@@ -13,6 +11,7 @@ import model.PlannerSystem;
 import model.ISchedulingStrategy;
 import model.User;
 import model.WorkHoursSchedulingStrategy;
+import view.MainSystemFrame;
 
 /**
  * This class represents the GUI for the planner system.
