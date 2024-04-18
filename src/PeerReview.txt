@@ -1,0 +1,26 @@
+Code Critique
+Design:
+The providers design of the calendar planner system shows a deep understanding of object-oriented
+design principles with a distinct separation among models, views, and controllers. They incorporated
+interfaces such as CalendarModel and EventModel to promote flexibility by abstracting things that
+could be necessary for future adaptations. However, the design could be improved by adding more
+interfaces that can manage interactions between the model and the view.  This would reduce
+dependencies between components and make the system more modular.
+
+Implementation:
+The interfaces such as ControllerFeatures and CalendarController outline the essential
+functionalities that any controller within the system must implement which ensures consistency
+throughout different implementations.  They utilize generic types in interfaces such as
+CalendarModel<T> which adds type safety and flexibility when handling different event types.
+
+Documentation:
+The interfaces are well-documented and provide a clear expectation for each method's purpose and
+usage.  They could enhance the documents by adding more examples and more detail to their parameter
+descriptions for clarity but other than that the documentation is done well.
+
+Design Limitations:
+A limitation that we noticed was the lack of interfaces that help connect with other systems such
+as different calendar strategies.  By adding these interfaces, the code could make the system more
+flexible and useful in different settings.   Expanding on the current interfaces could also improve
+both speed and responsiveness.
+

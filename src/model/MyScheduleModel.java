@@ -6,6 +6,11 @@ import java.util.stream.Collectors;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.EventModel;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.ScheduleModel;
 
+/**
+ * Represents a schedule model that adapts the event model to the schedule model.
+ * This class is used to convert the event model to the schedule model.
+ * This class implements ScheduleModel.
+ */
 public class MyScheduleModel implements ScheduleModel<EventModelAdapter> {
   private List<EventModelAdapter> events;
 

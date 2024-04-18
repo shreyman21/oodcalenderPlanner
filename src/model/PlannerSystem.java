@@ -38,7 +38,7 @@ import javax.xml.transform.stream.StreamResult;
  */
 public class PlannerSystem implements IPlannerSystemModel {
 
-  private Map<String, User> users = new HashMap<>();
+  private final Map<String, User> users = new HashMap<>();
   private ISchedulingStrategy schedulingStrategy;
 
   /**

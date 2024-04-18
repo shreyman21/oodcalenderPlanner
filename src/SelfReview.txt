@@ -1,0 +1,28 @@
+Review of the Experience:
+Done Differently:
+Initially, the design could have benefited from utilizing more interfaces.  They could have provided
+clarity for the behavior of components which would have made it easier for different parts of the
+code to have better compatibility without being bound to specific implementations.  If the
+interfaces were there from the beginning, the integration of new features or any changes might have
+been simpler.
+At first, the design incorrectly merged controller functions with view components which made the
+code more challenging to maintain and test. Looking back, we should have made a clearer separation
+with enhanced controller features to improve modularity and scalability to better fit the MVC
+principles.
+
+Lessons:
+The whole process of integrating and updating provided code for customers showed us how important it
+is to have adaptable and flexible code design.  We learned how crucial it is to have well-documented
+and modular code for easier modification and readability for other collaborators.
+Since we were adapting the code to meet customer feedback, we realized that we needed to account for
+future changes.  Planning for potential changes and building structure to support these changes is
+important for long-term development.
+
+Experience:
+It was interesting to see how other people have different thought processes when given an
+assignment especially the ways that they implement their code to achieve the end results.  There
+were some things they did well such as having an event model class as well as clear and concise
+definitions for time. However, we believe that our strategy flexibility was better. The main
+takeaway was the lack of interfaces which would have helped when creating and handling different
+scheduling strategies. We learned that there will always be pros and cons of every single design
+choice.

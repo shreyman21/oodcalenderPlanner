@@ -12,6 +12,11 @@ import model.ISchedulingStrategy;
 import model.PlannerSystem;
 import model.User;
 
+/**
+ * The class that represents the main frame adapter.
+ * This class is responsible for adapting the main frame to the planner view.
+ * This class implements IPlannerView and IPlannerViewListener.
+ */
 public class MainFrameAdapter implements IPlannerView, IPlannerViewListener{
 
   private MainFrame mainFrame;
@@ -57,11 +62,11 @@ public class MainFrameAdapter implements IPlannerView, IPlannerViewListener{
 
   @Override
   public void onEventCreate(Event event, String userId) {
-
+    this.listener.onEventCreate(event, userId);
   }
 
   @Override
   public void onScheduleLoad(String filePath, User user) {
-
+    this.listener.onScheduleLoad(filePath, user);
   }
 }

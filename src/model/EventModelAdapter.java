@@ -7,6 +7,11 @@ import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.DayOfWeek;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.EventModel;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.EventTimeModel;
 
+/**
+ * Represents an event model that adapts the event model to the event model.
+ * This class is used to convert the event model to the event model.
+ * This class implements EventModel.
+ */
 public class EventModelAdapter implements EventModel {
 
   private Event event;

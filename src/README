@@ -179,3 +179,9 @@ This is a textual representation of the planner dates.
 
 
 Extra Credit: LenientSchedulingStrategy class, and then run it on the PlannerRunner
+
+HW8 working which GUI worked: Unfortunately, the GUI did not work as expected.
+We implemented multiple adapters to our best ability but the GUI was not able to display the
+events and the schedules as expected. We were able to create the GUI and the frames but the
+functionality was not as expected. Their implementation of Events were confusing, as well as the
+strategy pattern.
