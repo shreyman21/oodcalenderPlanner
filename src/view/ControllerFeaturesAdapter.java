@@ -7,6 +7,7 @@ import java.util.HashMap;
 import cs3500.nuplanner.provider.src.cs3500.calendar.controller.hw07.ControllerFeatures;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.EventModel;
 import model.Event;
+import model.EventModelAdapter;
 import model.ISchedulingStrategy;
 import model.PlannerSystem;
 import model.User;
@@ -94,27 +95,38 @@ public class ControllerFeaturesAdapter implements ControllerFeatures {
 
   @Override
   public void modifyEvent(EventModel oldEvent, HashMap<String, String> ed) {
-    plannerSystem.setSchedulingStrategy(strategy);
     try {
-      // Extract event details from the hashmap
+      // Extract updated event details from HashMap
       String name = ed.get("name");
+      User user = plannerSystem.getUserByName(ed.get("userName"));
       LocalDateTime startDateTime = LocalDateTime.parse(ed.get("startDateTime"));
       LocalDateTime endDateTime = LocalDateTime.parse(ed.get("endDateTime"));
       String location = ed.get("location");
       boolean isOnline = Boolean.parseBoolean(ed.get("isOnline"));
 
-      Event newEvent = new Event(name, startDateTime, endDateTime, location, isOnline,
-              new ArrayList<>());
-      User user = plannerSystem.getUserByName(ed.get("userName")); // Assuming username is passed
+      Event updatedEvent = new Event(name, startDateTime, endDateTime, location, isOnline, new ArrayList<>()); // Assuming no invitees info in HashMap
 
-      plannerSystem.modifyEvent(user, oldEvent, newEvent);
+      Event originalEvent = ((EventModelAdapter) oldEvent).getEvent();
+
+      // Adapt the updated Event to an EventModel
+      EventModelAdapter updatedEventAdapter = new EventModelAdapter(updatedEvent);
+
+      // Assuming modifyEvent in PlannerSystem requires EventModel objects
+      plannerSystem.modifyEvent(user, originalEvent, updatedEvent); // You need to fetch the user as well
+
     } catch (Exception e) {
-      throw new IllegalArgumentException("Invalid event details");
+      throw new IllegalArgumentException("Invalid event details: " + e.getMessage());
     }
   }
 
   @Override
   public void removeEvent(EventModel event) {
-
+    try {
+      User user = plannerSystem.getUserByName("defaultUser");
+      Event eventToRemove = ((EventModelAdapter) event).getEvent();
+      plannerSystem.removeEvent(user, eventToRemove);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Event does not exist");
+    }
   }
 }

@@ -2,12 +2,11 @@ package view;
 
 import java.util.List;
 
-import cs3500.nuplanner.provider.src.cs3500.calendar.controller.hw07.ControllerFeatures;
 import cs3500.nuplanner.provider.src.cs3500.calendar.view.hw06.MainFrame;
 
 import model.Event;
 
-public class MainFrameAdapter implements MainFrame {
+public class MainFrameAdapter implements IPlannerView {
 
   private MainFrame mainFrame; // This will actually be a MainFrameImpl
 
@@ -17,17 +16,22 @@ public class MainFrameAdapter implements MainFrame {
 
 
   @Override
-  public void addFeatures(ControllerFeatures features) {
+  public void updateSchedule(List<Event> events) {
 
   }
 
   @Override
-  public void updateSchedule() {
+  public void setListener(IPlannerViewListener listener) {
 
   }
 
   @Override
-  public void makeVisible() {
+  public void showError(String message) {
+
+  }
+
+  @Override
+  public void setVisible(boolean visible) {
 
   }
 }
