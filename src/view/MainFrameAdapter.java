@@ -4,13 +4,15 @@ import java.util.List;
 
 import javax.swing.*;
 
+import controller.ControllerFeaturesAdapter;
 import cs3500.nuplanner.provider.src.cs3500.calendar.view.hw06.MainFrame;
 
 import model.Event;
 import model.ISchedulingStrategy;
 import model.PlannerSystem;
+import model.User;
 
-public class MainFrameAdapter implements IPlannerView {
+public class MainFrameAdapter implements IPlannerView, IPlannerViewListener{
 
   private MainFrame mainFrame;
   private ControllerFeaturesAdapter controllerFeaturesAdapter;
@@ -21,12 +23,15 @@ public class MainFrameAdapter implements IPlannerView {
 
   private ISchedulingStrategy strategy;
 
-  public MainFrameAdapter(MainFrame mainFrame) {
+  public MainFrameAdapter(MainFrame mainFrame, PlannerSystem plannerSystem
+          , ISchedulingStrategy strategy, IPlannerViewListener listener) {
     this.mainFrame = mainFrame;
+    this.plannerSystem = plannerSystem;
+    this.strategy = strategy;
+    this.listener = listener;
     this.controllerFeaturesAdapter =
-            new ControllerFeaturesAdapter(listener, plannerSystem, strategy);
+            new ControllerFeaturesAdapter(this, plannerSystem, strategy);
   }
-
 
   @Override
   public void updateSchedule(List<Event> events) {
@@ -41,13 +46,22 @@ public class MainFrameAdapter implements IPlannerView {
 
   @Override
   public void showError(String message) {
-   // open a dialog box with the error message with message
-    JPanel panel = new JPanel();
-    JOptionPane.showMessageDialog(panel, message, "Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(null,
+            message, "Error", JOptionPane.ERROR_MESSAGE);
   }
 
   @Override
   public void setVisible(boolean visible) {
     this.mainFrame.makeVisible();
+  }
+
+  @Override
+  public void onEventCreate(Event event, String userId) {
+
+  }
+
+  @Override
+  public void onScheduleLoad(String filePath, User user) {
+
   }
 }

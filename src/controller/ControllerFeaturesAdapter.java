@@ -1,18 +1,25 @@
-package view;
+package controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cs3500.nuplanner.provider.src.cs3500.calendar.controller.CalendarController;
 import cs3500.nuplanner.provider.src.cs3500.calendar.controller.hw07.ControllerFeatures;
+import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.CalendarModel;
 import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.EventModel;
+import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.Schedule;
 import model.Event;
 import model.EventModelAdapter;
 import model.ISchedulingStrategy;
 import model.PlannerSystem;
 import model.User;
+import view.IPlannerViewListener;
 
-public class ControllerFeaturesAdapter implements ControllerFeatures {
+public class ControllerFeaturesAdapter implements ControllerFeatures, CalendarController {
+
+  //IPlannerController, CalendarController
 
   private IPlannerViewListener listener;
   private PlannerSystem plannerSystem;
@@ -128,5 +135,19 @@ public class ControllerFeaturesAdapter implements ControllerFeatures {
     } catch (Exception e) {
       throw new IllegalArgumentException("Event does not exist");
     }
+  }
+
+  @Override
+  public void launch(CalendarModel<Schedule> model) {
+    if (model == null) {
+      throw new NullPointerException("Model cannot be null");
+    }
+    // Initialize or reload the model if necessary
+  }
+
+  @Override
+  public void showView() throws IOException {
+    // Show the view
+
   }
 }

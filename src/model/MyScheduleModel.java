@@ -9,6 +9,7 @@ import cs3500.nuplanner.provider.src.cs3500.calendar.model.hw05.ScheduleModel;
 public class MyScheduleModel implements ScheduleModel<EventModelAdapter> {
   private List<EventModelAdapter> events;
 
+
   public MyScheduleModel(List<Event> events) {
     this.events = events.stream()
             .map(EventModelAdapter::new)

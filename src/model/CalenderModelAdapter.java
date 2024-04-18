@@ -11,11 +11,10 @@ import java.util.List;
 public class CalenderModelAdapter implements ReadonlyCalendarModel<ScheduleModel> {
 
   private PlannerSystem plannerSystem;
-  private ScheduleModel scheduleModel;
 
-  public CalenderModelAdapter(PlannerSystem plannerSystem, ScheduleModel scheduleModel)  {
+
+  public CalenderModelAdapter(PlannerSystem plannerSystem)  {
     this.plannerSystem = plannerSystem;
-    this.scheduleModel = scheduleModel;
   }
   @Override
   public boolean isUserAvailable(String uid, DayOfWeek day, String time) {
@@ -45,17 +44,14 @@ public class CalenderModelAdapter implements ReadonlyCalendarModel<ScheduleModel
   }
 
   private ScheduleModel convertToScheduleModel(Schedule schedule) {
-
-    return null;
+    List<Event> events = schedule.getEvents();
+    return new MyScheduleModel(events);
   }
 
   @Override
   public String[] getUsers() {
-    List<User> users = plannerSystem.getUsers();
-    String[] uids = new String[users.size()];
-    for (int i = 0; i < users.size(); i++) {
-      uids[i] = users.get(i).getId();
-    }
-    return uids;
+    return plannerSystem.getUsers().stream()
+            .map(User::getId)
+            .toArray(String[]::new);
   }
 }

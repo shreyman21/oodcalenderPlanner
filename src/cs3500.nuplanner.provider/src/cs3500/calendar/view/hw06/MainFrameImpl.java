@@ -48,7 +48,7 @@ public class MainFrameImpl extends JFrame implements MainFrame {
    * Initializes the main panel, menu bar, and the bottom panel.
    * @param calendar the calendar model
    */
-  MainFrameImpl(ReadonlyCalendarModel<ScheduleModel> calendar) {
+  public MainFrameImpl(ReadonlyCalendarModel<ScheduleModel> calendar) {
     super();
     this.setPreferredSize(new Dimension(800, 800));
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
