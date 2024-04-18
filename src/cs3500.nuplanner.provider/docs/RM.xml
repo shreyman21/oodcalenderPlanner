@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<calendar id="RM">
+	<event>
+		<name>"Cool shade, stunner, yeah, I owe it all to my mother"</name>
+		<time>
+			<start-day>Sunday</start-day>
+			<start>0600</start>
+			<end-day>Sunday</end-day>
+			<end>0700</end>
+		</time>
+		<location>
+			<online>false</online>
+			<place>"Hot like summer, yeah, I'm makin' you sweat like that"</place>
+		</location>
+		<users>
+			<uid>"Rm"</uid>
+			<uid>"Kimani"</uid>
+		</users>
+	</event>
+	<event>
+		<name>"Smooth like butter, like a criminal undercover"</name>
+		<time>
+			<start-day>Saturday</start-day>
+			<start>0500</start>
+			<end-day>Saturday</end-day>
+			<end>0600</end>
+		</time>
+		<location>
+			<online>false</online>
+			<place>"Goin' pop like trouble breaking into your heart like that"</place>
+		</location>
+		<users>
+			<uid>"Rm"</uid>
+		</users>
+	</event>
+</calendar>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<calendar id="Warren">
+    <event>
+        <name>"Networks"</name>
+        <time>
+            <start-day>Wednesday</start-day>
+            <start>0915</start>
+            <end-day>Wednesday</end-day>
+            <end>1020</end>
+        </time>
+        <location>
+            <online>true</online>
+            <place>"West Village G"</place>
+        </location>
+        <users>
+            <uid>"Prof. Bernal Mor"</uid>
+            <uid>"Warren"</uid>
+            <uid>"Dhruv"</uid>
+            <uid>"Ethan"</uid>
+            <uid>"Neirit"</uid>
+            <uid>"Ryan"</uid>
+        </users>
+    </event>
+    <event>
+        <name>"Logic &amp; Computation"</name>
+        <time>
+            <start-day>Monday</start-day>
+            <start>1035</start>
+            <end-day>Monday</end-day>
+            <end>1140</end>
+        </time>
+        <location>
+            <online>true</online>
+            <place>"Churchill Hall 101"</place>
+        </location>
+        <users>
+            <uid>"Prof. Patterson"</uid>
+            <uid>"Warren"</uid>
+            <uid>"Dhruv"</uid>
+            <uid>"Neirit"</uid>
+            <uid>"Ethan"</uid>
+        </users>
+    </event>
+    <event>
+        <name>Embedded Design</name>
+        <time>
+            <start-day>Wednesday</start-day>
+            <start>1335</start>
+            <end-day>Wednesday</end-day>
+            <end>1440</end>
+        </time>
+        <location>
+            <online>false</online>
+            <place>Hayden Hall 009</place>
+        </location>
+        <users>
+            <uid>"Prof. Kimani"</uid>
+            <uid>"Warren"</uid>
+            <uid>"Dhruv"</uid>
+            <uid>"Ethan"</uid>
+            <uid>"Neirit"</uid>
+            <uid>"Anya"</uid>
+            <uid>"Ryan"</uid>
+            <uid>"Tommy"</uid>
+        </users>
+    </event>
+</calendar>

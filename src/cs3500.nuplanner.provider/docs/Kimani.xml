@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<calendar id="Kimani">
+	<event>
+		<name>"Cool shade, stunner, yeah, I owe it all to my mother"</name>
+		<time>
+			<start-day>Sunday</start-day>
+			<start>0600</start>
+			<end-day>Sunday</end-day>
+			<end>0700</end>
+		</time>
+		<location>
+			<online>false</online>
+			<place>"Hot like summer, yeah, I'm makin' you sweat like that"</place>
+		</location>
+		<users>
+			<uid>"Rm"</uid>
+			<uid>"Kimani"</uid>
+		</users>
+	</event>
+	<event>
+		<name>"you know."</name>
+		<time>
+			<start-day>Monday</start-day>
+			<start>0000</start>
+			<end-day>Monday</end-day>
+			<end>0200</end>
+		</time>
+		<location>
+			<online>false</online>
+			<place>"the place"</place>
+		</location>
+		<users>
+			<uid>"Kimani"</uid>
+			<uid>"Ethan"</uid>
+		</users>
+	</event>
+	<event>
+		<name>"the thing"</name>
+		<time>
+			<start-day>Monday</start-day>
+			<start>0700</start>
+			<end-day>Monday</end-day>
+			<end>0800</end>
+		</time>
+		<location>
+			<online>false</online>
+			<place>"the spot."</place>
+		</location>
+		<users>
+			<uid>"Kimani"</uid>
+		</users>
+	</event>
+</calendar>

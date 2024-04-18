@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<calendar id="Ethan">
+	<event>
+		<name>"Event 1"</name>
+		<time>
+			<start-day>Monday</start-day>
+			<start>0000</start>
+			<end-day>Monday</end-day>
+			<end>0100</end>
+		</time>
+		<location>
+			<online>false</online>
+			<place>"Location 1"</place>
+		</location>
+		<users>
+			<uid>"Dhruv"</uid>
+			<uid>"Ethan"</uid>
+			<uid>"Neirit"</uid>
+		</users>
+	</event>
+	<event>
+		<name>"Event 2"</name>
+		<time>
+			<start-day>Tuesday</start-day>
+			<start>0100</start>
+			<end-day>Tuesday</end-day>
+			<end>0200</end>
+		</time>
+		<location>
+			<online>false</online>
+			<place>"Location 2"</place>
+		</location>
+		<users>
+			<uid>"Dhruv"</uid>
+			<uid>"Ethan"</uid>
+			<uid>"Neirit"</uid>
+		</users>
+	</event>
+	<event>
+		<name>"Event 4"</name>
+		<time>
+			<start-day>Thursday</start-day>
+			<start>0300</start>
+			<end-day>Thursday</end-day>
+			<end>0400</end>
+		</time>
+		<location>
+			<online>false</online>
+			<place>"Location 4"</place>
+		</location>
+		<users>
+			<uid>"Dhruv"</uid>
+			<uid>"Ethan"</uid>
+		</users>
+	</event>
+</calendar>
